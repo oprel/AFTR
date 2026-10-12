@@ -539,17 +539,12 @@ void watch_my_step_move(Game_Play* play) {
             }
 
         
-#if ITEM_NAME_LEN != 10
-        // ideally we'd calculate it like this, but it's not in the size budget atm:
-        //len = mMl_strlen(S_watch_my_step.item_name, ITEM_NAME_LEN, CHAR_SPACE);
-        //len = mFont_GetStringWidth(S_watch_my_step.item_name, len, FALSE);
-
-        len = mFont_GetStringWidth(S_watch_my_step.item_name, ITEM_NAME_LEN, FALSE);
-        S_watch_my_step.scale = ((f32)len - 24.0f) / 96.0f;
+#if AFTR
+        len = aftr_GetStringWidth(S_watch_my_step.item_name, ITEM_NAME_LEN, TRUE);
 #else
         len = mMl_strlen(S_watch_my_step.item_name, ITEM_NAME_LEN, CHAR_SPACE);
-        S_watch_my_step.scale = ((f32)len - 2.0f) / 8;
 #endif
+        S_watch_my_step.scale = ((f32)len - 2.0f) / 8;
 
         } else {
             S_watch_my_step.item_no = 0;

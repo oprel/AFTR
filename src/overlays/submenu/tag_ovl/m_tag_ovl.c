@@ -274,8 +274,8 @@ mTG_win_data_c D_8087907C_jp[3] = {
         { 0.3409091f, 0.8125f },
         { -88.0f, 16.0f },
         1.125f,
-        2 * 12, // minWidth, originally 2
-        8 * 12, // widthRange, originally 8
+        2,
+        8,
         { 18.0f, -5.0f },
         { 10.0f, -3.0f },
         { -14.0f, 2.0f },
@@ -590,9 +590,14 @@ void func_8086FD3C_jp(Submenu* submenu) {
         }
  
         if (tag->str2Type != mTG_QSTR_TYPE_NONE) {
+            #ifdef AFTR
+            width = aftr_GetStringWidth((char*)tag->str0, PLAYER_NAME_LEN, TRUE) + 4;
+            width1 = aftr_GetStringWidth((char*)tag->str1, PLAYER_NAME_LEN, TRUE) + 4;
+            #else
             /* Two-line window (str0 over str1); widths are in characters on N64 */
             width = mMl_strlen((char*)tag->str0, PLAYER_NAME_LEN, CHAR_SPACE) + 4;
             width1 = mMl_strlen((char*)tag->str1, PLAYER_NAME_LEN, CHAR_SPACE) + 4;
+            #endif
  
             if (tag->str2Type == mTG_QSTR_TYPE_TO_MUSEUM) {
                 width -= 2;
@@ -632,8 +637,11 @@ void func_8086FD3C_jp(Submenu* submenu) {
                 mIN_copy_name_str(tag->str0, itemNo);
             }
  
-            // func_8086F764_jp(tag, 0, mMl_strlen((char*)tag->str0, TAG_ITEM_STR_LEN, CHAR_SPACE), 0);
-            func_8086F764_jp(tag, 0, mFont_GetStringWidth(tag->str0, TAG_ITEM_STR_LEN, FALSE), 0);
+            #ifdef AFTR
+            func_8086F764_jp(tag, 0, aftr_GetStringWidth((char*)tag->str0, TAG_ITEM_STR_LEN, TRUE), 0);
+            #else
+            func_8086F764_jp(tag, 0, mMl_strlen((char*)tag->str0, TAG_STR0_LEN, CHAR_SPACE), 0);
+            #endif
         }
  
         if (func_8086F960_jp(tag) != 0) {
@@ -647,8 +655,13 @@ void func_8086FD3C_jp(Submenu* submenu) {
     } else if (tag->table == mTG_TABLE_CATALOG_WC) {
         /* Catalog category label (Furniture, Wallpaper, ...) */
         mem_copy(tag->str0, D_80879148_jp[idx], 6);
-        // func_8086F764_jp(tag, 0, mMl_strlen((char*)tag->str0, TAG_STR0_LEN, CHAR_SPACE), 0);
-        func_8086F764_jp(tag, 0, mFont_GetStringWidth(tag->str0, TAG_STR0_LEN, FALSE), 0);
+
+        #ifdef AFTR
+        func_8086F764_jp(tag, 0, aftr_GetStringWidth((char*)tag->str0, TAG_STR0_LEN, TRUE), 0);
+        #else
+        func_8086F764_jp(tag, 0, mMl_strlen((char*)tag->str0, TAG_STR0_LEN, CHAR_SPACE), 0);
+        #endif
+
         tag->bodyOfs[0] *= -1.0f;
         tag->arrowDir = 2;
         tag->basePos[0] += -10.0f;

@@ -175,7 +175,7 @@ CFLAGS          += -G 0 -non_shared -Xcpluscomm -nostdinc -Wab,-r4300_mul
 WARNINGS         := -fullwarn -verbose -woff 624,649,838,712,516,513,596,564,594
 ASFLAGS          := -march=vr4300 -32 -G0
 GBI_DEFINES      := -DF3DEX_GBI_2
-RELEASE_DEFINES  := -DNDEBUG -D_FINALROM
+RELEASE_DEFINES  := -DNDEBUG -D_FINALROM -DAFTR
 LIBULTRA_DEFINES := -DBUILD_VERSION=VERSION_$(ULTRALIB_VERSION)
 COMMON_DEFINES   := -D_MIPS_SZLONG=32 $(GBI_DEFINES) $(RELEASE_DEFINES) $(LIBULTRA_DEFINES)
 C_DEFINES        := -DLANGUAGE_C -D_LANGUAGE_C $(COMMON_DEFINES)
@@ -366,8 +366,9 @@ $(ELF): $(O_FILES) $(LIBULTRA_LIB) $(LDSCRIPT) $(BUILD_DIR)/linker_scripts/$(VER
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/auto/undefined_funcs_auto.ld \
 		-Map $(MAP) $(LIBULTRA_LIB) -o $@
 
-$(LDSCRIPT): linker_scripts/$(VERSION)/$(TARGET).ld
-	cp $< $@
+# aftr_tools.ld is spliced into the splat generated linker script, right before its /DISCARD/ block
+$(LDSCRIPT): linker_scripts/$(VERSION)/$(TARGET).ld linker_scripts/$(VERSION)/aftr_tools.ld
+	awk 'FNR==NR { ext = ext $$0 "\n"; next } /^    \/DISCARD\// { printf "%s", ext } 1' linker_scripts/$(VERSION)/aftr_tools.ld $< > $@
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $< > $@

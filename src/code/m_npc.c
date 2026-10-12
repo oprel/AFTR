@@ -21,6 +21,10 @@
 #include "6A5B00.h"
 #include "6A83A0.h"
 
+#ifdef AFTR
+extern void aftr_CopyString8(char* dst, char* src);
+#endif
+
 SpecialNpcData l_sp_actor_name[] = {
     { 0xD008, NPC_SEX_MALE, 0x0205, 2 },   { 0xD01E, NPC_SEX_MALE, 0x0205, 2 },   { 0xD03A, NPC_SEX_MALE, 0x0205, 2 },
     { 0xD03B, NPC_SEX_MALE, 0x0205, 2 },   { 0xD03C, NPC_SEX_MALE, 0x0205, 2 },   { 0xD009, NPC_SEX_MALE, 0x0205, 2 },
@@ -45,8 +49,11 @@ SpecialNpcData l_sp_actor_name[] = {
     { 0xA00D, NPC_SEX_MALE, 0x04E2, 2 },   { 0xA00E, NPC_SEX_MALE, 0x04E2, 2 },   { 0xA00F, NPC_SEX_MALE, 0x04E2, 2 },
     { 0xA010, NPC_SEX_MALE, 0x04E2, 2 },
 };
+#ifdef AFTR
 char l_no_name_npc_name[ANIMAL_NAME_LEN] = { 0xD4, 0x8E, 0xA6, 0x90, 0x85, 0x42, 0x20, 0x20 };
-// char l_no_name_npc_name[6] = { 0xD4, 0x8E, 0xA6, 0x90, 0x85, 0x42 };
+#else
+char l_no_name_npc_name[ANIMAL_NAME_LEN] = { 0xD4, 0x8E, 0xA6, 0x90, 0x85, 0x42 };
+#endif
 char l_no_ending_npc_ending[ANIMAL_CATCHPHRASE_LEN] = { 0xD3, 0xAF, 0x9D, 0x20 };
 
 s32 fake_table[60];
@@ -3011,8 +3018,11 @@ void mNpc_GetNpcWorldNameTableNo(char* name, u16 npcId) {
             worldName = npcName;
         }
     }
-    mIN_Copy8(name, worldName);
-    //mPr_CopyPlayerName(name, worldName);
+    #ifdef AFTR
+    aftr_CopyString8(name, worldName);
+    #else
+    mPr_CopyPlayerName(name, worldName);
+    #endif
 }
 
 void mNpc_GetNpcWorldNameAnm(char* name, AnmPersonalID_c* anmId) {
@@ -3025,8 +3035,11 @@ void mNpc_GetNpcWorldNameAnm(char* name, AnmPersonalID_c* anmId) {
             worldName = npcName;
         }
     }
-    mIN_Copy8(name, worldName);
-    //mPr_CopyPlayerName(name, worldName);
+    #ifdef AFTR
+    aftr_CopyString8(name, worldName);
+    #else
+    mPr_CopyPlayerName(name, worldName);
+    #endif
 }
 
 void mNpc_GetNpcWorldNameP(char* name, u16 npcId) {
@@ -3042,8 +3055,11 @@ void mNpc_GetNpcWorldNameP(char* name, u16 npcId) {
         }
         sp++;
     }
-    mIN_Copy8(name, worldName);
-    //mPr_CopyPlayerName(name, worldName);
+    #ifdef AFTR
+    aftr_CopyString8(name, worldName);
+    #else
+    mPr_CopyPlayerName(name, worldName);
+    #endif
 }
 
 void mNpc_GetNpcWorldName(char* name, Npc* npc) {
@@ -3062,8 +3078,11 @@ void mNpc_GetNpcWorldName(char* name, Npc* npc) {
         }
         worldName = npcName;
     }
-    //mPr_CopyPlayerName(name, worldName);
-    mIN_Copy8(name, worldName);
+    #ifdef AFTR
+    aftr_CopyString8(name, worldName);
+    #else
+    mPr_CopyPlayerName(name, worldName);
+    #endif
 }
 
 void mNpc_GetRandomAnimalName(char* dst) {

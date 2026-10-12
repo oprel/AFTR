@@ -97,7 +97,7 @@ void mainproc(void* arg) {
     Check_RegionIsSupported();
 
     fb = func_800D94F0_jp();
-    sysHeap = (uintptr_t)SEGMENT_VRAM_END(buffers);
+    sysHeap = (uintptr_t)SEGMENT_VRAM_END(aftr_tools);
     gSystemHeapSize = fb - sysHeap;
     SystemHeap_Init((void*)sysHeap, gSystemHeapSize);
 

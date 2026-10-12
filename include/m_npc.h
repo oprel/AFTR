@@ -20,7 +20,11 @@
 #define ANIMAL_MEMORY_NUM 7
 #define ANIMAL_CATCHPHRASE_LEN 4
 #define ANIMAL_NAME_LEN_VANILLA 6
+#ifdef AFTR
 #define ANIMAL_NAME_LEN 8
+#else
+#define ANIMAL_NAME_LEN 6
+#endif
 
 #define NPC_NUM 216
 

@@ -72,14 +72,9 @@ void mIN_copy_name_str(char* buf, u32 item) {
     mem_copy(buf, ITEM_NAME_PTR(name), ITEM_NAME_LEN);
 }
 
-//here for padding to match the original size? why is this needed?
+//doesn't match original 100%, so we need the padding
 void mIN_copy_name_str_pad0(void) {}
 void mIN_copy_name_str_pad1(void) {}
-// void mIN_copy_name_str_pad2(void) {}
-// void mIN_copy_name_str_pad3(void) {}
-// void mIN_copy_name_str_pad4(void) {}
-
-
-void mIN_Copy8(char* dst, char* src) {
-    mem_copy((u8*)dst, (u8*)src, 8);
-}
+void mIN_copy_name_str_pad2(void) {}
+void mIN_copy_name_str_pad3(void) {}
+void mIN_copy_name_str_pad4(void) {}

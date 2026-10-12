@@ -18,4 +18,4 @@ DmaEntry dma_rom_ad[] = {
 
 #undef DEFINE_DMA_ENTRY
 
-u8 sDmaDataPadding[0xF0] = { 0 };
+u8 sDmaDataPadding[0xE0] = { 0 };

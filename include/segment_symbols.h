@@ -65,6 +65,8 @@ DECLARE_SEGMENT(code);
 
 DECLARE_SEGMENT(buffers);
 
+DECLARE_SEGMENT(aftr_tools);
+
 // TODO: the rest of segments
 
 DECLARE_SEGMENT(segment_01136000);
