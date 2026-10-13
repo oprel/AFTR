@@ -241,7 +241,11 @@ s32 mMsg_CopyTail(Actor* actor, char* data, s32 startIdx, s32 len) {
 s32 mMsg_CopyYear(char* data, s32 startIdx, s32 len){
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u16 year = COMMON_GET(time.rtcTime.year);
+    #ifdef AFTR
+    char string[4];
+    #else
     char string[6];
+    #endif
     s32 nameLen;
     s32 newLen;
 
@@ -257,7 +261,11 @@ s32 mMsg_CopyYear(char* data, s32 startIdx, s32 len){
 s32 mMsg_CopyMonth(char* data, s32 startIdx, s32 len) {
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u8 month = COMMON_GET(time.rtcTime.month);
+    #ifdef AFTR
+    char string[9];
+    #else
     char string[4];
+    #endif
     s32 stringLen;
     s32 newLen;
 
@@ -273,7 +281,11 @@ s32 mMsg_CopyMonth(char* data, s32 startIdx, s32 len) {
 s32 mMsg_CopyWeek(char* data, s32 startIdx, s32 len) {
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u8 weekday = COMMON_GET(time.rtcTime.weekday);
+    #ifdef AFTR
+    char string[9];
+    #else
     char string[5];
+    #endif
     s32 stringLen;
     s32 newLen;
 
@@ -305,7 +317,11 @@ s32 mMsg_CopyDay(char* data, s32 startIdx, s32 len) {
 s32 mMsg_CopyHour(char* data, s32 startIdx, s32 len) {
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u8 hour = COMMON_GET(time.rtcTime.hour);
+    #ifdef AFTR
+    char string[2];
+    #else
     char string[6];
+    #endif
     s32 stringLen;
     s32 newLen;
 
@@ -321,7 +337,11 @@ s32 mMsg_CopyHour(char* data, s32 startIdx, s32 len) {
 s32 mMsg_CopyMin(char* data, s32 startIdx, s32 len) {
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u8 min = COMMON_GET(time.rtcTime.min);
+    #ifdef AFTR
+    char string[8];
+    #else
     char string[4];
+    #endif
     s32 stringLen;
     s32 newLen;
 
@@ -337,7 +357,11 @@ s32 mMsg_CopyMin(char* data, s32 startIdx, s32 len) {
 s32 mMsg_CopySec(char* data, s32 startIdx, s32 len) {
     s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
     u8 sec = COMMON_GET(time.rtcTime.sec);
+    #ifdef AFTR
+    char string[2];
+    #else
     char string[5];
+    #endif
     s32 stringLen;
     s32 newLen;
 
