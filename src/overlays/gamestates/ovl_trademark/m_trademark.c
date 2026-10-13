@@ -19,7 +19,7 @@
 #include "m_std_dma.h"
 #include "m_bgm.h"
 #include "m_cpak.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 #include "6B8F20.h"
 #include "6EC9E0.h"
 #include "segment_symbols.h"
@@ -56,7 +56,7 @@ s32 func_80804C40_jp(void) {
     OSMesgQueue* mq = B_80828620_jp;
     s32 i;
 
-    if (func_80090120_jp() != 0) {
+    if (mFont_Get_end_load_texture() != 0) {
         return true;
     }
 
@@ -66,7 +66,7 @@ s32 func_80804C40_jp(void) {
         }
     }
 
-    func_80090130_jp(1);
+    mFont_Set_end_load_texture(1);
     return true;
 }
 
@@ -578,7 +578,7 @@ void trademark_init(Game* thisx) {
 
     DmaMgr_RequestSyncDebug(&this->unk_00260, SEGMENT_ROM_START(segment_01136000), SEGMENT_ROM_SIZE(segment_01136000),
                             "../m_trademark.c", 1081);
-    func_800924CC_jp(&B_80828560_jp, B_80828620_jp, &B_808286B0_jp);
+    mFont_ct(&B_80828560_jp, B_80828620_jp, &B_808286B0_jp);
 
     mBGMPsComp_scene_mode(0);
     mEv_SetTitleDemo(mTD_demono_get());

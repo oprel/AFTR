@@ -6,7 +6,7 @@
 #include "macros.h"
 #include "m_flashrom.h"
 #include "m_cpak.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 #include "m_rcp.h"
 #include "sys_matrix.h"
 

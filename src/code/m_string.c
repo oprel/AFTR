@@ -3,7 +3,7 @@
 #include "m_lib.h"
 
 #include "m_msg_main.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 
 extern u32 D_D18000[];
 extern u32 D_D16000;

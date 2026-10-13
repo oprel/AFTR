@@ -5,6 +5,8 @@
 #include "lb_rtc.h"
 #include "libc/stdint.h"
 
+#define M_STRING_MAX_STRING_LENGTH 10
+
 void mString_Get_StringDataAddressAndSize(s32 idx, uintptr_t* vramp, size_t* size);
 void mString_Load_StringFromRom(char* dst, s32 dstLen, s32 strIdx);
 s32 mString_Load_YearStringFromRom(char* dst, lbRTC_year_t year);

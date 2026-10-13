@@ -1,6 +1,6 @@
 #include "m_rcp.h"
 
-#include "6B3DC0.h"
+#include "m_font.h"
 #include "gfx.h"
 #include "gfxalloc.h"
 #include "macros.h"
@@ -510,7 +510,7 @@ void DisplayList_initialize(GraphicsContext* gfxCtx, u8 clearR, u8 clearG, u8 cl
 
     CLOSE_DISPS(gfxCtx);
 
-    func_80091074_jp(gfxCtx);
+    mFont_Main_start(gfxCtx);
 }
 
 void fade_rgba8888_draw(Gfx** gfxP, u32 color) {

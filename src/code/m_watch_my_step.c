@@ -7,7 +7,7 @@
 #include "m_scene_table.h"
 #include "src/overlays/gamestates/ovl_play/m_play.h"
 #include "src/overlays/actors/player_actor/m_player.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 
 #define CHAR_SPACE 32
 

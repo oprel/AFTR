@@ -5,7 +5,7 @@
 #include "m_common_data.h"
 #include "overlays/gamestates/ovl_select/m_select.h"
 #include "gfx.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 #include "macros.h"
 #include "m_lib.h"
 #include "m_rcp.h"

@@ -4,7 +4,7 @@
 #include "code_variables.h"
 #include "macros.h"
 #include "sys_matrix.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 #include "m_rcp.h"
 
 // madeup name
@@ -67,7 +67,7 @@ void func_80804ADC_jp(Game_CPEdit* edit) {
     edit->submenu.moveProcIndex = MSM_MOVE_PROC_PREWAIT;
     edit->submenu.programId = SUBMENU_PROGRAM_19;
     edit->submenu.unk_00 = 4;
-    func_800924CC_jp(NULL, NULL, NULL);
+    mFont_ct(NULL, NULL, NULL);
     SetGameFrame(2);
 }
 

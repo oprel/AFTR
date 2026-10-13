@@ -1,6 +1,8 @@
 #include "global.h"
 #include "m_msg_main.h"
 #include "m_choice_main.h"
+#include "m_npc.h"
+#include "m_string.h"
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_base_window_p.s")
 
@@ -220,33 +222,200 @@ s32 mMsg_CopyTalkName(Actor* actor, char* data, s32 startIdx, s32 len) {
     return newLen;
 }
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyTail.s")
+//#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyTail.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyYear.s")
+s32 mMsg_CopyTail(Actor* actor, char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    char* tail = (actor != NULL) ? mNpc_GetWordEnding((Npc*)actor) : NULL;
+    s32 tailLen = (actor != NULL) ? mMsg_Get_Length_String(tail, ANIMAL_CATCHPHRASE_LEN) : 0;
+    s32 newLen;
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyMonth.s")
+    newLen = mMsg_MoveDataCut(data, startIdx + tailLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], tail, tailLen);
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyWeek.s")
+    return newLen;
+}
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyDay.s")
+//#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyYear.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyHour.s")
+s32 mMsg_CopyYear(char* data, s32 startIdx, s32 len){
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u16 year = COMMON_GET(time.rtcTime.year);
+    char string[6];
+    s32 nameLen;
+    s32 newLen;
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyMin.s")
+    nameLen = mString_Load_YearStringFromRom(string, year);
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopySec.s")
+    newLen = mMsg_MoveDataCut(data, startIdx + nameLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, nameLen);
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyFree.s")
+    return newLen;
+}
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/func_8009F2EC_jp.s")
+//#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyMonth.s")
+s32 mMsg_CopyMonth(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 month = COMMON_GET(time.rtcTime.month);
+    char string[4];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_MonthStringFromRom(string, month);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyWeek.s")
+s32 mMsg_CopyWeek(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 weekday = COMMON_GET(time.rtcTime.weekday);
+    char string[5];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_WeekStringFromRom(string, weekday);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyDay.s")
+s32 mMsg_CopyDay(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 day = COMMON_GET(time.rtcTime.day);
+    char string[4];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_DayStringFromRom(string, day);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyHour.s")
+s32 mMsg_CopyHour(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 hour = COMMON_GET(time.rtcTime.hour);
+    char string[6];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_HourStringFromRom(string, hour);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyMin.s")
+s32 mMsg_CopyMin(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 min = COMMON_GET(time.rtcTime.min);
+    char string[4];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_MinStringFromRom(string, min);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopySec.s")
+s32 mMsg_CopySec(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    u8 sec = COMMON_GET(time.rtcTime.sec);
+    char string[5];
+    s32 stringLen;
+    s32 newLen;
+
+    stringLen = mString_Load_SecStringFromRom(string, sec);
+
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyFree.s")
+s32 mMsg_CopyFree(MessageWindow* win, s32 num, char* data, s32 startIdx, s32 len) {
+    s32 commandLen;
+    char* string;
+    s32 stringLen;
+    s32 newLen;
+
+    if (num < 0 || num >= MESSAGE_FREE_STR_MAX) {
+        num = 0;
+    }
+
+    commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    string = win->freeStr[num];
+    stringLen = mMsg_Get_Length_String(string, MESSAGE_FREE_STR_LEN);
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
+
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Set_PfColor.s")
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyDetermination.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyCountryName.s")
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyCountryName.s")
+s32 mMsg_CopyCountryName(char* data, s32 startIdx, s32 len) {
+    s32 commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    char* countryName = mLd_GetLandName();
+    s32 countryNameLen = mMsg_Get_Length_String(countryName, LAND_NAME_SIZE);
+    s32 newStartIdx = startIdx + countryNameLen;
+    s32 newLen;
+    char suffix[M_STRING_MAX_STRING_LENGTH];
+    s32 suffixLen;
+
+    newLen = mMsg_MoveDataCut(data, newStartIdx, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], countryName, countryNameLen);
+
+    mString_Load_StringFromRom(suffix, M_STRING_MAX_STRING_LENGTH, 0x1E4);
+    suffixLen = mMsg_Get_Length_String(suffix, M_STRING_MAX_STRING_LENGTH);
+
+    newLen = mMsg_MoveDataCut(data, newStartIdx + suffixLen, newStartIdx, newLen, FALSE);
+    mMsg_CopyString(&data[newStartIdx], suffix, suffixLen);
+
+    return newLen;
+}
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyRamdomNumber2.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyItem.s")
+// #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyItem.s")
+s32 mMsg_CopyItem(MessageWindow* win, s32 num, char* data, s32 startIdx, s32 len) {
+    s32 commandLen;
+    char* string;
+    s32 stringLen;
+    s32 newLen;
+
+    if (num < 0 || num >= MESSAGE_FREE_STR_MAX) {
+        num = 0;
+    }
+
+    commandLen = mFont_CodeSize_idx_get(data, startIdx);
+    string = win->itemStr[num];
+    stringLen = mMsg_Get_Length_String(string, ITEM_NAME_LEN);
+    newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
+    mMsg_CopyString(&data[startIdx], string, stringLen);
+
+    return newLen;
+}
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/func_8009F670_jp.s")
 

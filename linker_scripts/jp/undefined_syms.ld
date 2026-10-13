@@ -152,7 +152,7 @@ ef_wipe1_modelT = 0x04004740;
 ef_wipe2_modelT = 0x04004D60;
 ef_wipe3_modelT = 0x04005360;
 
-// 6B3DC0
+// m_font
 
 D_6000000 = 0x06000000;
 D_6000120 = 0x06000120;

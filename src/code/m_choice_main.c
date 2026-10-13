@@ -7,7 +7,7 @@
 #include "audio.h"
 #include "m_lib.h"
 #include "sys_matrix.h"
-#include "6B3DC0.h"
+#include "m_font.h"
 
 extern u32 D_D06000[];
 extern u32 D_D05000[];
