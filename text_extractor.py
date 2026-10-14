@@ -88,7 +88,9 @@ def find_af_entry(af_data: dict[str, tuple], af_bank: str, af_index_raw: str) ->
 
 def lookup(finder, source: dict, bank: str, index: str) -> str:
     try:
-        return finder(source, bank, index)
+        text = finder(source, bank, index)
+        text = text.replace("\r\n", "\n").replace("\r", "\n").replace("\n", r"\n") #escape newlines
+        return text
     except ValueError as e:
         print(f"WARN {e}")
         return f"<<ERROR: {e}>>"

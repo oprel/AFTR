@@ -6,6 +6,10 @@
 
 #define CHAR_SPACE 32
 
+void aftr_NewPlayerCopy(u8* dst, u8* unusedSrc, s32 unusedLen){
+    static char new_player_str[8] = {'I', '\'', 'm', ' ', ' n', 'e', 'w', '!'};
+    mem_copy(dst, new_player_str, sizeof(new_player_str));
+}
 
 s32 aftr_GetStringWidth(const char* string, s32 size, s32 divide_by_twelve){
     s32 len = mMl_strlen(string, size, CHAR_SPACE);

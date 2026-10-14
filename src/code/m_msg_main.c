@@ -410,14 +410,29 @@ s32 mMsg_CopyCountryName(char* data, s32 startIdx, s32 len) {
     newLen = mMsg_MoveDataCut(data, newStartIdx, startIdx + commandLen, len, FALSE);
     mMsg_CopyString(&data[startIdx], countryName, countryNameLen);
 
+    #ifndef AFTR
     mString_Load_StringFromRom(suffix, M_STRING_MAX_STRING_LENGTH, 0x1E4);
     suffixLen = mMsg_Get_Length_String(suffix, M_STRING_MAX_STRING_LENGTH);
 
     newLen = mMsg_MoveDataCut(data, newStartIdx + suffixLen, newStartIdx, newLen, FALSE);
     mMsg_CopyString(&data[newStartIdx], suffix, suffixLen);
+    #endif
 
     return newLen;
 }
+
+#ifdef AFTR //padding to even out country name size change
+void mMsg_pad0(void) {}
+void mMsg_pad1(void) {}
+void mMsg_pad2(void) {}
+void mMsg_pad3(void) {}
+void mMsg_pad4(void) {}
+void mMsg_pad5(void) {}
+void mMsg_pad6(void) {}
+void mMsg_pad7(void) {}
+void mMsg_pad8(void) {}
+void mMsg_pad9(void) {}
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyRamdomNumber2.s")
 

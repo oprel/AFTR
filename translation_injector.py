@@ -2,10 +2,8 @@
 """Inject Animal Crossing's English text into an Animal Forest build.
 
 Usage:
-    python3 text_injector.py path/to/link-sheet.csv path/to/ac-files path/to/afrepo
+    python3 text_injector.py path/to/translation_sheet.tsv path/to/ac-files path/to/afrepo
 
-The link sheet contains only source locations and optional text overrides.
-Animal Crossing text is decoded from the user's own AC files at runtime.
 """
 from __future__ import annotations
 
@@ -68,53 +66,6 @@ AF_CHAR_MAP = {
     0xFA: 'ぼ', 0xFB: 'ぱ', 0xFC: 'ぴ', 0xFD: 'ぷ', 0xFE: 'ぺ', 0xFF: 'ぽ',
 }
 
-AF_CONTROL_CODES = {
-    "CLOSE_WINDOW": (0x00, 2), "OPEN_WINDOW": (0x01, 2), "CLEAR_SCREEN": (0x02, 2),
-    "PAUSE": (0x03, 3), "PAGE_ADVANCE": (0x04, 2), "FONT_COLOR": (0x05, 5),
-    "QUICK_ADVANCE_ON": (0x06, 2), "QUICK_ADVANCE_OFF": (0x07, 2),
-    "ANIM_BANK_0": (0x08, 5), "ANIM_BANK_4": (0x09, 5), "ANIM_BANK_5": (0x0A, 5),
-    "ANIM_BANK_6": (0x0B, 5), "ANIM_BANK_9": (0x0C, 5), "OPENCHOICE": (0x0D, 2),
-    "JUMP_TEXT": (0x0E, 4), "STOW_SELECT_OPT1": (0x0F, 4), "STOW_SELECT_OPT2": (0x10, 4),
-    "STOW_SELECT_OPT3": (0x11, 4), "STOW_SELECT_OPT4": (0x12, 4),
-    "RAND_MSG_2": (0x13, 6), "RAND_MSG_3": (0x14, 8), "RAND_MSG_4": (0x15, 10),
-    "SELECTMENU_2": (0x16, 6), "SELECTMENU_3": (0x17, 8), "SELECTMENU_4": (0x18, 10),
-    "JUMP_SET_STRING": (0x19, 2), "PLAYER_NAME": (0x1A, 2), "SPEAKER_NAME": (0x1B, 2),
-    "CATCHPHRASE": (0x1C, 2), "DATE_YEAR": (0x1D, 2), "DATE_MONTH": (0x1E, 2),
-    "DATE_WEEKDAY": (0x1F, 2), "DATE_DAY": (0x20, 2), "TIME_HOUR": (0x21, 2),
-    "TIME_MIN": (0x22, 2), "TIME_SEC": (0x23, 2),
-    "STRVAR_1": (0x24, 2), "STRVAR_2": (0x25, 2), "STRVAR_3": (0x26, 2),
-    "STRVAR_4": (0x27, 2), "STRVAR_5": (0x28, 2), "STRVAR_6": (0x29, 2),
-    "STRVAR_7": (0x2A, 2), "STRVAR_8": (0x2B, 2), "STRVAR_9": (0x2C, 2),
-    "STRVAR_10": (0x2D, 2), "STRVAR_11": (0x36, 2), "STRVAR_12": (0x37, 2),
-    "STRVAR_13": (0x38, 2), "STRVAR_14": (0x39, 2), "STRVAR_15": (0x3A, 2),
-    "STRVAR_16": (0x3B, 2), "STRVAR_17": (0x3C, 2), "STRVAR_18": (0x3D, 2),
-    "STRVAR_19": (0x3E, 2), "STRVAR_20": (0x3F, 2),
-    "LAST_MENU_CHOICE": (0x2E, 2), "TOWN_NAME": (0x2F, 2), "RAND_0_99": (0x30, 2),
-    "STRVAR_21": (0x31, 2), "STRVAR_22": (0x32, 2), "STRVAR_23": (0x33, 2),
-    "STRVAR_24": (0x34, 2), "STRVAR_25": (0x35, 2),
-    "GYROID_GREETING": (0x40, 2),
-    "LUCK_NEUTRAL": (0x41, 2), "LUCK_RELATIONSHIP": (0x42, 2), "LUCK_UNPOPULAR": (0x43, 2),
-    "LUCK_BAD": (0x44, 2), "LUCK_MONEY": (0x45, 2), "LUCK_GOODS": (0x46, 2),
-    "LUCK_6": (0x47, 2), "LUCK_7": (0x48, 2), "LUCK_8": (0x49, 2), "LUCK_9": (0x4A, 2),
-    "MSGCONTENTS_NORMAL": (0x4B, 2), "MSGCONTENTS_ANGRY": (0x4C, 2),
-    "MSGCONTENTS_SAD": (0x4D, 2), "MSGCONTENTS_FUN": (0x4E, 2), "MSGCONTENTS_SLEEPY": (0x4F, 2),
-    "FONT_COLOR_RANGE": (0x50, 6), "WHISPER": (0x51, 3), "SFX_A": (0x52, 3),
-    "SFX_B": (0x53, 3), "FONT_SIZE_NEXT": (0x54, 3), "OPEN_TYPING_DIALOG": (0x55, 2),
-    "PLAY_MUSIC": (0x56, 4), "MUSIC_UNKNOWN_57": (0x57, 4), "MUSIC_UNKNOWN_58": (0x58, 3),
-    "SFX_C": (0x59, 3), "FONT_RESIZE": (0x5A, 3), "SNDNOPAGE": (0x5B, 2),
-    "VOICETRUE": (0x5C, 2), "VOICEFALSE": (0x5D, 2), "ALLOW_B_DEFAULT_OPT": (0x5E, 2),
-    "MSGEND": (0x00, 2),  # alias for CLOSE_WINDOW
-}
-
-AF_CODES_BY_OPCODE = {op: (name, size) for name, (op, size) in AF_CONTROL_CODES.items()}
-AF_DROP_CODES = {"STR_AMPM", "SETCURSORJUST", "CLRCUSRORJUST", "CUTARTICLE", "CAPTIALIZE"}
-AF_INDEX_ARG_CODES = {
-    "JUMP_TEXT", "STOW_SELECT_OPT1", "STOW_SELECT_OPT2", "STOW_SELECT_OPT3",
-    "STOW_SELECT_OPT4", "RAND_MSG_2", "RAND_MSG_3", "RAND_MSG_4",
-    "SELECTMENU_2", "SELECTMENU_3", "SELECTMENU_4",
-}
-AF_MAX_ENTRY_SIZE = 0x400
-
 # AC text format
 AC_CHAR_MAP = [
     "¡", "¿", "Ä", "À", "Á", "Â", "Ã", "Å",
@@ -150,8 +101,9 @@ AC_CHAR_MAP = [
     "ð", "ñ", "ò", "ó", "ô", "õ", "ö", "÷",
     "ø", "ù", "ú", "û", "ü", "ý", "þ", "ÿ",
 ]
+AC_CHAR_DICT = dict(enumerate(AC_CHAR_MAP))
 
-AC_COMMAND_SIZES = [
+COMMAND_SIZES = [
     2, 2, 2, 3, 2, 5, 2, 2, 5, 5, 5, 5, 5, 2, 4, 4,
     4, 4, 4, 6, 8, 10, 6, 8, 10, 2, 2, 2, 2, 2, 2, 2,
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -162,7 +114,7 @@ AC_COMMAND_SIZES = [
     3, 2, 2, 2, 2, 2, 2, 4, 4, 12, 14,
 ]
 
-AC_COMMANDS = [
+COMMAND_CODES = [
     "MSGEND", "MSGCONTINUE", "MSGCLEAR", "PAUSE", "BTN", "TEXTCOLOR", "ABLECANCEL", "UNABLECANCEL",
     "DEMOPLR", "DEMONPC0", "DEMONPC1", "DEMONPC2", "DEMONPCQST", "OPENCHOICE", "SETFORCEMSG", "SETNEXTMSG0",
     "SETNEXTMSG1", "SETNEXTMSG2", "SETNEXTMSG3", "SETNEXTMSGRND2", "SETNEXTMSGRND3", "SETNEXTMSGRND4", "SETSELSTR2", "SETSELSTR3",
@@ -177,22 +129,34 @@ AC_COMMANDS = [
     "MSGTIMEEND", "SNDTRGSYS", "LINESCALE", "SNDNOPAGE", "VOICETRUE", "VOICEFALSE", "SELNOB", "GIVEOPEN",
     "GIVECLOSE", "MSGCONTENTS_GLOOMY", "SELNOBCLOSE", "SETNEXTMSGRNDSECTION", "AGBDUMMY0", "AGBDUMMY1", "AGBDUMMY2", "SPACE",
     "AGBDUMMY3", "AGBDUMMY4", "MALEFEMALECHK", "AGBDUMMY5", "AGBDUMMY6", "AGBDUMMY7", "AGBDUMMY8", "AGBDUMMY9",
-    "AGBDUMMY10", "STR_ISLANDNAME", "SETCURSORJUST", "CLRCUSRORJUST", "CUTARTICLE", "CAPTIALIZE", "STR_AMPM", "SETNEXTMSG4",
+    "AGBDUMMY10", "STR_ISLANDNAME", "SETCURSORJUST", "CLRCURSORJUST", "CUTARTICLE", "CAPITALIZE", "STR_AMPM", "SETNEXTMSG4",
     "SETNEXTMSG5", "SETSELSTR5", "SETSELSTR6",
 ]
+assert len(COMMAND_CODES) == len(COMMAND_SIZES)
 
-AC_TO_AF = {
-    ac_name: AF_CODES_BY_OPCODE[opcode][0]
-    for opcode, ac_name in enumerate(AC_COMMANDS)
-    if opcode in AF_CODES_BY_OPCODE
+# AF uses the same opcode numbering and sizes as AC, but only knows the first
+# 0x5F opcodes (through SELNOB). One table, AC names, serves both games.
+COMMAND_OPCODE = {name: op for op, name in enumerate(COMMAND_CODES)}
+assert len(COMMAND_OPCODE) == len(COMMAND_CODES), "duplicate name in COMMAND_CODES"
+AF_OPCODE_COUNT = 0x5F
+AF_COMMANDS = frozenset(COMMAND_CODES[:AF_OPCODE_COUNT])
+
+AF_DROP_CODES = {"STR_AMPM", "SETCURSORJUST", "CLRCURSORJUST", "CUTARTICLE", "CAPITALIZE", "SELNOBCLOSE"}
+
+AF_INDEX_ARG_CODES = {
+    "SETFORCEMSG",
+    "SETNEXTMSG0", "SETNEXTMSG1", "SETNEXTMSG2", "SETNEXTMSG3",
+    "SETNEXTMSGRND2", "SETNEXTMSGRND3", "SETNEXTMSGRND4",
+    "SETSELSTR2", "SETSELSTR3", "SETSELSTR4",
 }
+AF_MAX_ENTRY_SIZE = 0x400
 
-NPC_NAME_LEN = 8 # must match ANIMAL_NAME_LEN in include/m_npc.h
+NPC_NAME_LEN = 8 # include/m_npc.h
 NPC_VANILLA_LEN = 6
 NPC_BANK_HEADER = 0x08
 NPC_BANK_ENTRIES = 0xFF
 
-ITEM_NAME_LEN = 16
+ITEM_NAME_LEN = 16 # include/m_item_name.h
 ITEM_VANILLA_LEN = 10
 ITEM_BANK_HEADER = 0x08
 ITEM_VANILLA_CATEGORIES = (  # (vanilla offset, entry count), in bank order
@@ -259,32 +223,33 @@ AF_BANKS = {
 }
 AF_CARRIERS = {
     "dialogue": {"segment": "softsprite_matrix_static", "codeword": 0x01913000,
-                 "real_size": 0x40, "offset": 0x1000, "end": 0x1AFF000},
+                 "real_size": 0x40, "offset": 0x1000, "end": 0x1C00000},
     "shared":   {"segment": "segment_00BD4000", "codeword": 0x00BD4000, "size": 0x124A10},
 }
 AF_LINKER_SCRIPT = Path("linker_scripts/jp/auto/undefined_syms_auto.ld")
 AF_TRANSLATION_BACKUP_DIR = "translation_offsets"
 
-def decode_af_entry(raw: bytes) -> str:
+
+def decode_entry(raw: bytes, char_map: dict[int, str], opcode_count: int, label: str) -> str:
     out, i = [], 0
     while i < len(raw):
         b = raw[i]
         if b == 0x7F:
             if i + 1 >= len(raw):
-                raise ValueError(f"truncated AF control code at byte {i}")
+                raise ValueError(f"truncated {label} control code at byte {i}")
             opcode = raw[i + 1]
-            if opcode not in AF_CODES_BY_OPCODE:
-                raise ValueError(f"AF opcode 0x{opcode:02X} at byte {i} is unknown")
-            name, size = AF_CODES_BY_OPCODE[opcode]
+            if opcode >= opcode_count:
+                raise ValueError(f"{label} opcode 0x{opcode:02X} at byte {i} is unknown")
+            name, size = COMMAND_CODES[opcode], COMMAND_SIZES[opcode]
             if i + size > len(raw):
-                raise ValueError(f"truncated AF {name} at byte {i}")
+                raise ValueError(f"truncated {label} {name} at byte {i}")
             args = raw[i + 2:i + size]
             out.append(f"<<{name} [{args.hex().upper()}]>>" if args else f"<<{name}>>")
             i += size
         else:
-            if b not in AF_CHAR_MAP:
-                raise ValueError(f"AF byte 0x{b:02X} at position {i} has no CHAR_MAP entry")
-            out.append(AF_CHAR_MAP[b])
+            if b not in char_map:
+                raise ValueError(f"{label} byte 0x{b:02X} at position {i} has no CHAR_MAP entry")
+            out.append(char_map[b])
             i += 1
     return "".join(out)
 
@@ -299,9 +264,10 @@ def encode_af_entry(text: str) -> bytes:
                 raise ValueError(f"unterminated AF control code near: {text[i:i + 20]!r}")
             name, _, arg_part = text[i + 2:end].partition("[")
             name = name.strip()
-            if name not in AF_CONTROL_CODES:
-                raise ValueError(f"unknown AF control code {name!r}")
-            opcode, size = AF_CONTROL_CODES[name]
+            if name not in AF_COMMANDS:
+                raise ValueError(f"control code {name!r} is not valid in AF")
+            opcode = COMMAND_OPCODE[name]
+            size = COMMAND_SIZES[opcode]
             args = bytes.fromhex(arg_part.rstrip("]").strip()) if arg_part else b""
             if len(args) != size - 2:
                 raise ValueError(f"{name} expects {size - 2} arg byte(s), got {len(args)}")
@@ -317,22 +283,16 @@ def encode_af_entry(text: str) -> bytes:
     return bytes(out)
 
 
-def translate_tags(text: str, ac_to_af: dict[str, str]) -> tuple[str, list[str]]:
-    unmapped = []
-
+def normalize_tags(text: str) -> str:
+    """Drop AC-only codes AF can't represent and normalize hex args."""
     def repl(m):
         name, rest = m.group(1), m.group(2)
         if name in AF_DROP_CODES:
             return ""
-        if name in ac_to_af:
-            name = ac_to_af[name]
-        elif name not in AF_CONTROL_CODES:
-            unmapped.append(name)
-            return m.group(0)
         rest = HEX_ARG_RE.sub(lambda h: "[" + h.group(1).replace(" ", "").upper() + "]", rest)
         return f"<<{name}{rest}>>"
 
-    return TAG_RE.sub(repl, text), unmapped
+    return TAG_RE.sub(repl, text)
 
 
 def transfer_jump_targets(translated_text: str, af_raw: bytes | None) -> tuple[str, bool]:
@@ -350,9 +310,9 @@ def transfer_jump_targets(translated_text: str, af_raw: bytes | None) -> tuple[s
         if i + 1 >= len(af_raw):
             return translated_text, False
         opcode = af_raw[i + 1]
-        if opcode not in AF_CODES_BY_OPCODE:
+        if opcode >= AF_OPCODE_COUNT:
             return translated_text, False
-        name, size = AF_CODES_BY_OPCODE[opcode]
+        name, size = COMMAND_CODES[opcode], COMMAND_SIZES[opcode]
         if i + size > len(af_raw):
             return translated_text, False
         if name in AF_INDEX_ARG_CODES:
@@ -365,7 +325,7 @@ def transfer_jump_targets(translated_text: str, af_raw: bytes | None) -> tuple[s
     index = 0
     def repl(m):
         nonlocal index
-        name, _ = m.group(1), m.group(2)
+        name = m.group(1)
         if name not in AF_INDEX_ARG_CODES:
             return m.group(0)
         args = original[index][1]
@@ -375,20 +335,15 @@ def transfer_jump_targets(translated_text: str, af_raw: bytes | None) -> tuple[s
     return TAG_RE.sub(repl, translated_text), True
 
 
-def encode_row(text: str, af_raw: bytes | None, ac_to_af: dict[str, str], label: str):
-    translated, unmapped = translate_tags(text, ac_to_af)
-    if unmapped:
-        print(f"WARN {label}: leaving original -- unmapped control code(s) {unmapped}")
-        return None
-
-    translated, jump_ok = transfer_jump_targets(translated, af_raw)
+def encode_row(text: str, af_raw: bytes | None, label: str):
+    text, jump_ok = transfer_jump_targets(normalize_tags(text), af_raw)
     if not jump_ok:
         print(f"WARN {label}: leaving original -- jump/choice target mismatch")
         return None
 
     try:
-        encoded = encode_af_entry(translated)
-        decode_af_entry(encoded)
+        encoded = encode_af_entry(text)
+        decode_entry(encoded, AF_CHAR_MAP, AF_OPCODE_COUNT, "AF")
     except ValueError as e:
         print(f"WARN {label}: leaving original -- {e}")
         return None
@@ -512,31 +467,6 @@ def unpack_rarc(raw: bytes) -> dict[str, bytes]:
     return result
 
 
-def decode_ac_entry(raw: bytes) -> str:
-    out, i = [], 0
-    while i < len(raw):
-        b = raw[i]
-        if b == 0x7F:
-            if i + 1 >= len(raw):
-                raise ValueError(f"truncated AC control code at byte {i}")
-            opcode = raw[i + 1]
-            if opcode >= len(AC_COMMANDS):
-                raise ValueError(f"AC opcode 0x{opcode:02X} at byte {i} is unknown")
-            size = AC_COMMAND_SIZES[opcode]
-            if i + size > len(raw):
-                raise ValueError(f"truncated AC {AC_COMMANDS[opcode]} at byte {i}")
-            args = raw[i + 2:i + size]
-            out.append(f"<<{AC_COMMANDS[opcode]} [{args.hex().upper()}]>>" if args else f"<<{AC_COMMANDS[opcode]}>>")
-            i += size
-        else:
-            try:
-                out.append(AC_CHAR_MAP[b])
-            except IndexError:
-                raise ValueError(f"AC byte 0x{b:02X} at position {i} is outside AC_CHAR_MAP") from None
-            i += 1
-    return "".join(out)
-
-
 def decode_ac_entry_fixed(raw: bytes) -> str:
     return raw.split(b"\0", 1)[0].decode("ascii", errors="replace").rstrip()
 
@@ -603,7 +533,7 @@ def find_ac_entry(data_by_bank: dict[str, tuple], ac_bank: str, ac_index_raw: st
     try:
         if kind == "pair":
             entries = source[1]
-            return decode_ac_entry(entries[index]) if index in entries else ""
+            return decode_entry(entries[index], AC_CHAR_DICT, len(COMMAND_CODES), "AC") if index in entries else ""
         if kind == "fixed_arc":
             data, entry_size = source[1], source[2]
             offset = index * entry_size
@@ -628,18 +558,20 @@ def should_inject(row: dict) -> bool:
     return bool(override or (ac_bank and ac_index))
 
 
+def normalize_linebreaks(text: str) -> str:
+    text = text.replace(r"\r\n", "\n")
+    text = text.replace(r"\n", "\n").replace(r"\r", "\n")
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return text
+
 def resolve_text(row: dict, ac_data: dict[str, tuple]) -> str:
     override = (row.get("override_text") or "").strip()
     if override:
-        return override
+        return normalize_linebreaks(override)
 
     text = find_ac_entry(ac_data, row.get("ac_bank", ""), row.get("ac_index", "")).strip()
-    fix = (row.get("text_fix") or "").strip().upper()
-    if not fix:
-        return text
-    if fix == "DROP_LEADING_APOSTROPHE":
-        return text[1:] if text.startswith("'") else text
-    raise ValueError(f"unsupported text_fix {fix!r} in {row.get('af_bank', '')}[{row.get('af_index', '')}]")
+    text = text.replace("Memory Card", "Controller Pak")
+    return normalize_linebreaks(text)
 
 def build_item_bank(vanilla: bytes) -> bytearray:
     """Re-lay the vanilla item bank out as a flat grid of ITEM_NAME_LEN-byte entries, indexed by af_index."""
@@ -742,7 +674,7 @@ def af_process_bank(name: str, assets_dir: Path, rows: list[dict], ac_data: dict
                 print(f"WARN {name}: af_index {af_index_raw!r} isn't a number, skipping")
                 continue
 
-            encoded = encode_row(text, entries.get(af_index), AC_TO_AF, f"{name} af_index {af_index}")
+            encoded = encode_row(text, entries.get(af_index), f"{name} af_index {af_index}")
             if encoded is None:
                 n_skip += 1
                 continue
@@ -823,13 +755,13 @@ def patch_linker_symbol(af_repo: Path, old_codeword: int, new_codeword: int, ban
 
 def main():
     if len(sys.argv) != 4:
-        sys.exit(f"usage: python3 {sys.argv[0]} path/to/link-sheet.csv path/to/ac-files path/to/afrepo")
+        sys.exit(f"usage: python3 {sys.argv[0]} path/to/translation_sheet.tsv path/to/ac-files path/to/afrepo")
 
-    link_sheet, ac_files_dir, af_repo = map(Path, sys.argv[1:])
+    translation_sheet, ac_files_dir, af_repo = map(Path, sys.argv[1:])
     assets_dir = af_repo / "assets" / "jp"
 
-    with open(link_sheet, newline="", encoding="utf-8-sig") as f:
-        all_rows = list(csv.DictReader(f))
+    with open(translation_sheet, newline="", encoding="utf-8-sig") as f:
+        all_rows = list(csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE))
     rows_by_bank: dict[str, list[dict]] = {}
     for row in all_rows:
         rows_by_bank.setdefault(row.get("af_bank", ""), []).append(row)

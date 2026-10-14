@@ -10,6 +10,12 @@ void aNPS2_actor_dt(Actor* thisx, Game_Play* game_play);
 void aNPS2_actor_init(Actor* thisx, Game_Play* game_play);
 void aNPS2_actor_save(Actor* thisx, Game_Play* game_play);
 
+#ifdef AFTR
+//#include "aftr_tools.h"
+//extern char aftr_new_player_str[4];
+// static char aftr_new_player_str[4] = {0x4E, 0x65, 0x77, 0x21}; // New!
+#endif
+
 #if 0
 ActorProfile Npc_P_Sel2_Profile = {
     /* */ ACTOR_NPC_P_SEL2,
@@ -34,9 +40,9 @@ ActorProfile Npc_P_Sel2_Profile = {
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/aNPS2_actor_init.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BE948_jp.s")
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/aNPS2_actor_move.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BE9D8_jp.s")
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/aNPS2_actor_draw.s")
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BEA0C_jp.s")
 
@@ -74,24 +80,19 @@ ActorProfile Npc_P_Sel2_Profile = {
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BF12C_jp.s")
 
-//#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BF1E8_jp.s")
 
-//#pragma GLOBAL_ASM("asm/jp/nonmatchings/overlays/actors/ovl_Npc_P_Sel2/ac_npc_p_sel2/func_809BF244_jp.s")
-
-//aNPS2_copy_hokanohito
-void func_809BF1E8_jp(Npc_P_Sel2* p_sel2, u8* str) {
+void aNPS2_copy_hokanohito(Npc_P_Sel2* p_sel2, u8* str) {
     Choice* choice_win = mChoice_Get_base_window_p();
  
     mChoice_Load_ChoseStringFromRom((s32)choice_win, (char*)(str + 2 * Choice_CHOICE_STRING_LEN), 0x1B9, (Actor*)p_sel2);
     mChoice_Load_ChoseStringFromRom((s32)choice_win, (char*)(str + 3 * Choice_CHOICE_STRING_LEN), 0x29, (Actor*)p_sel2);
 }
 
+//new_player_str (はじめて)
 extern u8 D_809C0C38_jp[4];
 extern void func_809BF070_jp(void* strBuf, void* strPArray, s32 type);
 
-
-//aNPS2_select_card_player_init
-void func_809BF244_jp(Npc_P_Sel2* p_sel2, volatile s32 useFixedBytes) {
+void aNPS2_set_choice_str(Npc_P_Sel2* p_sel2, volatile s32 useFixedBytes) {
     Choice* choice_win = mChoice_Get_base_window_p();
     u8 str[Choice_CHOICE_STRING_LEN * Choice_CHOICE_MAX];
     u8* str_p[Choice_CHOICE_MAX];
@@ -116,7 +117,12 @@ void func_809BF244_jp(Npc_P_Sel2* p_sel2, volatile s32 useFixedBytes) {
             mChoice_Load_ChoseStringFromRom(choice_win, p, Choice_CHOICE_STRING_LEN * Choice_CHOICE_MAX, (Actor*)p_sel2);
         } else {
             p = str + next_choice_idx * Choice_CHOICE_STRING_LEN;
+            #ifdef AFTR
+            aftr_NewPlayerCopy(p,D_809C0C38_jp,4);
+            //mem_copy(p,aftr_new_player_str,4);
+            #else
             mem_copy(p,D_809C0C38_jp,4);
+            #endif
         }
     
         str_p[next_choice_idx] = p;

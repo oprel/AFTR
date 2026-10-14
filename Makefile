@@ -299,12 +299,12 @@ setup:
 	$(PYTHON) tools/decompress_baserom.py $(VERSION)
 
 inject:
-	$(TEXT_INJECTOR) link_sheet.csv baseroms/ac/ .
+	$(TEXT_INJECTOR) translation_sheet.tsv baseroms/ac/ .
 	$(FONT_INJECTOR) .
 	$(IMAGE_INJECTOR) .
 
 text:
-	$(TEXT_EXTRACTOR) link_sheet.csv baseroms/ac/ .
+	$(TEXT_EXTRACTOR) translation_sheet.tsv baseroms/ac/ .
 
 extract:
 	$(RM) -r asm/$(VERSION) assets/$(VERSION)
