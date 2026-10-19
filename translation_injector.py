@@ -66,7 +66,7 @@ AF_CHAR_MAP = {
     0xFA: 'ぼ', 0xFB: 'ぱ', 0xFC: 'ぴ', 0xFD: 'ぷ', 0xFE: 'ぺ', 0xFF: 'ぽ',
 }
 
-# AC text format
+'''
 AC_CHAR_MAP = [
     "¡", "¿", "Ä", "À", "Á", "Â", "Ã", "Å",
     "Ç", "È", "É", "Ê", "Ë", "Ì", "Í", "Î",
@@ -100,6 +100,43 @@ AC_CHAR_MAP = [
     "è", "é", "ê", "ë", "ì", "í", "î", "ï",
     "ð", "ñ", "ò", "ó", "ô", "õ", "ö", "÷",
     "ø", "ù", "ú", "û", "ü", "ý", "þ", "ÿ",
+]
+'''
+
+# Closest match for each AC character
+AC_CHAR_MAP = [
+    "!", "?", "A", "A", "A", "A", "A", "A",
+    "C", "E", "E", "E", "E", "I", "I", "I",
+    "I", "D", "N", "O", "O", "O", "O", "O",
+    "O", "U", "U", "U", "U", "B", "P", "a",
+    " ", "!", "\"", "a", "a", "%", "&", "'",
+    "(", ")", "~", "♥", ",", "-", ".", "♪",
+    "0", "1", "2", "3", "4", "5", "6", "7",
+    "8", "9", ":", "🌢", "<", "=", ">", "?",
+    "@", "A", "B", "C", "D", "E", "F", "G",
+    "H", "I", "J", "K", "L", "M", "N", "O",
+    "P", "Q", "R", "S", "T", "U", "V", "W",
+    "X", "Y", "Z", "a", "+", "a", "a", "_",
+    "c", "a", "b", "c", "d", "e", "f", "g",
+    "h", "i", "j", "k", "l", "m", "n", "o",
+    "p", "q", "r", "s", "t", "u", "v", "w",
+    "x", "y", "z", "e", "e", "e", "e", " ",
+    "�", "i", "i", "i", "i", "・", "d", "n",
+    "o", "o", "o", "o", "o", "0", "u", "u",
+    "ー", "u", "u", "y", "y", "p", "Y", "・",
+    "・", "d", "n", "・", "u", "3", "2", "1",
+    "-", "-", "?", "?", "\"", ">", "<", "・",
+    "・", "・", "・", "・", "・", "・", "・", "・",
+    "O", "X", "ロ", "・", "+", "・", "・", "・",
+    "・", "・", "・", "・", "😃", "・", "・", "😃",
+    "X", ":", "T", "X", "ロ", "ロ", "・", "😃",
+    "・", "・", "・", "・", "・", "\n", "・", "・",
+    ",", "・", "O", "O", "・", "O", "O", "X",
+    "O", "U", "U", "U", "U", "Y", "3", "B",
+    "a", "a", "a", "a", "a", "a", "a", "c",
+    "e", "e", "e", "e", "i", "i", "i", "i",
+    "d", "n", "o", "o", "o", "o", "o", "・",
+    "o", "u", "u", "u", "u", "y", "p", "y",
 ]
 AC_CHAR_DICT = dict(enumerate(AC_CHAR_MAP))
 
@@ -141,7 +178,7 @@ assert len(COMMAND_OPCODE) == len(COMMAND_CODES), "duplicate name in COMMAND_COD
 AF_OPCODE_COUNT = 0x5F
 AF_COMMANDS = frozenset(COMMAND_CODES[:AF_OPCODE_COUNT])
 
-AF_DROP_CODES = {"STR_AMPM", "SETCURSORJUST", "CLRCURSORJUST", "CUTARTICLE", "CAPITALIZE", "SELNOBCLOSE"}
+AF_DROP_CODES = {"STR_AMPM", "SETCURSORJUST", "CLRCURSORJUST", "CUTARTICLE", "CAPITALIZE", "SELNOBCLOSE", "SPACE"}
 
 AF_INDEX_ARG_CODES = {
     "SETFORCEMSG",
@@ -335,9 +372,9 @@ def transfer_jump_targets(translated_text: str, af_raw: bytes | None) -> tuple[s
     return TAG_RE.sub(repl, translated_text), True
 
 
-def encode_row(text: str, af_raw: bytes | None, label: str):
+def encode_row(text: str, af_raw: bytes | None, label: str, allow_jump_mismatch: bool = False):
     text, jump_ok = transfer_jump_targets(normalize_tags(text), af_raw)
-    if not jump_ok:
+    if not jump_ok and not allow_jump_mismatch:
         print(f"WARN {label}: leaving original -- jump/choice target mismatch")
         return None
 
@@ -564,12 +601,30 @@ def normalize_linebreaks(text: str) -> str:
     text = text.replace("\r\n", "\n").replace("\r", "\n")
     return text
 
+
+def apply_regex_override(text: str, override: str, label: str) -> str:
+    groups = override[1:].split("/")
+    if len(groups) < 2: return text
+    try:
+        result, count = re.subn(groups[0], groups[1], text, flags=(re.IGNORECASE | re.MULTILINE | re.DOTALL))
+        if count == 0:
+            print(f"WARN {label}: No match for regex in override text: {groups[0]!r} -- using AC text unmodified")
+            return text
+        return result
+    except re.error as e:
+        print(f"WARN {label}: override_text {override!r} isn't a usable regex ({e}) -- using AC text unmodified")
+        return text
+
+
 def resolve_text(row: dict, ac_data: dict[str, tuple]) -> str:
     override = (row.get("override_text") or "").strip()
-    if override:
+    regex_mode = override.startswith("/")
+    if override and not regex_mode:
         return normalize_linebreaks(override)
 
     text = find_ac_entry(ac_data, row.get("ac_bank", ""), row.get("ac_index", "")).strip()
+    if regex_mode:
+        text = apply_regex_override(text, override, row.get('af_index', ''))
     text = text.replace("Memory Card", "Controller Pak")
     return normalize_linebreaks(text)
 
@@ -674,7 +729,8 @@ def af_process_bank(name: str, assets_dir: Path, rows: list[dict], ac_data: dict
                 print(f"WARN {name}: af_index {af_index_raw!r} isn't a number, skipping")
                 continue
 
-            encoded = encode_row(text, entries.get(af_index), f"{name} af_index {af_index}")
+            force = (row.get("override_text") or "").strip().startswith("/force")
+            encoded = encode_row(text, entries.get(af_index), f"{name} af_index {af_index}", allow_jump_mismatch=force)
             if encoded is None:
                 n_skip += 1
                 continue

@@ -20,9 +20,11 @@ from pathlib import Path
 from translation_injector import (
     AF_BANKS,
     AF_TRANSLATION_BACKUP_DIR,
+    AF_CHAR_MAP, 
+    AF_OPCODE_COUNT,
     build_item_bank,
-    decode_af_entry,
     find_ac_entry,
+    decode_entry,
     load_ac_banks,
     read_offset_table,
     segname,
@@ -80,7 +82,7 @@ def find_af_entry(af_data: dict[str, tuple], af_bank: str, af_index_raw: str) ->
     if not raw:
         return ""
     try:
-        text = decode_af_entry(raw)
+        text = decode_entry(raw, AF_CHAR_MAP, AF_OPCODE_COUNT, "AF")
     except ValueError as e:
         raise ValueError(f"{af_bank}[{index}]: decode failed ({e})") from e
     return text.rstrip(" ") if source[0] == "fixed" else text  # fixed-width fields are space padded

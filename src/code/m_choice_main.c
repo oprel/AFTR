@@ -332,7 +332,7 @@ void mChoice_LongChoicesPad1(UNUSED Choice* choice, UNUSED Game* game) {}
 
 void mChoice_LongChoicesPad2(UNUSED Choice* choice, UNUSED Game* game) {}
 
-void mChoice_LongChoicesPad3(UNUSED Choice* choice, UNUSED Game* game) {}
+// void mChoice_LongChoicesPad3(UNUSED Choice* choice, UNUSED Game* game) {}
 
 #else
 
