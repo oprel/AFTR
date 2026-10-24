@@ -9,7 +9,7 @@ struct Actor;
 
 #define Choice_CHOICE_STRING_LEN 10
 #ifdef AFTR
-#define LONG_CHOICES 20 //temporary workaround to get longer choices to work with incomplete decomp
+#define LONG_CHOICES 24 //temporary workaround to get longer choices to work with incomplete decomp
 #endif
 
 typedef enum Choice_CHOICE {

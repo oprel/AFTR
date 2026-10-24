@@ -1,6 +1,7 @@
 #include "global.h"
 #include "m_msg_main.h"
 #include "m_choice_main.h"
+#include "m_lib.h"
 #include "m_npc.h"
 #include "m_string.h"
 
@@ -71,11 +72,56 @@ void mMsg_Set_client_actor_p(MessageWindow* window, Actor* clientActor, s32 show
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Set_free_str_cl.s")
 
+#ifdef AFTR
+static char S_item_str[MESSAGE_ITEM_STR_MAX][ITEM_NAME_LEN];
+
+void mMsg_Set_item_str(MessageWindow* window, s32 itemStrNo, char* str, s32 len) {
+    if (itemStrNo >= MESSAGE_ITEM_STR0 && itemStrNo < MESSAGE_ITEM_STR_MAX && str != NULL) {
+        s32 i;
+        char* itemStr = S_item_str[itemStrNo];
+
+        if (len >= 10) {
+            len = ITEM_NAME_LEN;
+        }
+
+        for (i = 0; i < ITEM_NAME_LEN; i++) {
+            if (i < len) {
+                itemStr[i] = str[i];
+            } else {
+                itemStr[i] = ' ';
+            }
+        }
+    }
+}
+void mMsg_Set_item_str_pad0(void) {}
+void mMsg_Set_item_str_pad1(void) {}
+void mMsg_Set_item_str_pad2(void) {}
+void mMsg_Set_item_str_pad3(void) {}
+void mMsg_Set_item_str_pad4(void) {}
+void mMsg_Set_item_str_pad5(void) {}
+void mMsg_Set_item_str_pad6(void) {}
+void mMsg_Set_item_str_pad7(void) {}
+void mMsg_Set_item_str_pad8(void) {}
+#else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Set_item_str.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_free_str.s")
 
+#ifdef AFTR
+void mMsg_Get_item_str(MessageWindow* window, s32 itemStrNo, char* str) {
+    if (itemStrNo >= MESSAGE_ITEM_STR0 && itemStrNo < MESSAGE_ITEM_STR_MAX && str != NULL) {
+        mem_copy((u8*)str, (u8*)S_item_str[itemStrNo], ITEM_NAME_LEN);
+    }
+}
+void mMsg_Get_item_str_pad0(void) {}
+void mMsg_Get_item_str_pad1(void) {}
+void mMsg_Get_item_str_pad2(void) {}
+void mMsg_Get_item_str_pad3(void) {}
+void mMsg_Get_item_str_pad4(void) {}
+#else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_item_str.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Set_mail_str.s")
 
@@ -151,9 +197,61 @@ void mMsg_Set_client_actor_p(MessageWindow* window, Actor* clientActor, s32 show
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_SetTimer.s")
 
-#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_MsgDataAddressAndSize.s")
+#ifdef AFTR
+void mMsg_Get_MsgDataAddressAndSize(s32 idx, u32* vramp, size_t* size) {
+    s32 sized;
+    u32 offsetPtrs[5];
 
+    if (idx >= 0 && idx < MESSAGE_IDX_MAX) {
+        u32 vrom;
+        if (idx & 1) {
+            DmaMgr_RequestSyncDebug(offsetPtrs, (u32)&D_CF9000[idx - 1], 8, "../m_msg_main.c", 855);
+            vrom = offsetPtrs[0];
+            sized = offsetPtrs[1] - vrom;
+        } else if (idx == 0) {
+            DmaMgr_RequestSyncDebug(offsetPtrs, (u32)&D_CF9000, 8, "../m_msg_main.c", 862);
+            vrom = 0;
+            sized = offsetPtrs[0] - vrom;
+        } else {
+            DmaMgr_RequestSyncDebug(offsetPtrs, (u32)&D_CF9000[idx - 2], 16, "../m_msg_main.c", 868);
+            vrom = offsetPtrs[1];
+            sized = offsetPtrs[2] - vrom;
+        }
+        if (sized <= MESSAGE_TEXT_BUFFER_LEN) {
+            *vramp = (u32)vrom + (u32)&D_BD4000;
+            *size = sized;
+        } else {
+            *vramp = NULL;
+            *size = 0;
+        }
+    } else {
+        *vramp = NULL;
+        *size = 0;
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_MsgDataAddressAndSize.s")
+#endif
+
+#ifdef AFTR
+s32 mMsg_Count_MsgData(char* data) {
+    s32 i = 0;
+
+    while (i < MESSAGE_TEXT_BUFFER_LEN) {
+        if (mMsg_Check_LastCode_forData(data, i) || mMsg_Check_ContinueCode_forData(data, i) ||
+            mMsg_Check_MsgTimeEndCode_forData(data, i)) {
+            i += mFont_CodeSize_idx_get(data, i);
+            break;
+        }
+
+        i += mFont_CodeSize_idx_get(data, i);
+    }
+
+    return i;
+}
+#else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Count_MsgData.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_LoadMsgData.s")
 
@@ -165,7 +263,84 @@ void mMsg_Set_client_actor_p(MessageWindow* window, Actor* clientActor, s32 show
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Check_NowUtter.s")
 
+#ifdef AFTR
+static MessageData S_msg_data; //static to allow for larger buffer
+
+extern MessageWindow B_80142410_jp;
+#define mMsg_window B_80142410_jp
+extern void func_8009FA58_jp(f32 timer);
+extern void func_8009FB2C_jp(u8 status);
+
+void mMsg_init(Game_Play* play) {
+    S_msg_data.dataLoaded = FALSE;
+    mMsg_window.dataLoaded = FALSE;
+    mMsg_window.msgNo = 0;
+    mMsg_window.unk_008 = 0;
+    mMsg_window.messageData = &S_msg_data;
+    mMsg_window.centerX = 160.0f;
+    mMsg_window.centerY = 185.4f;
+    mMsg_window.width = 245.0f;
+    mMsg_window.height = 96.0f;
+    mMsg_window.clientActor = NULL;
+    mMsg_window.clientNameLen = 0;
+    mMsg_window.nameplateX = 61.0;
+    mMsg_window.nameplateY = 64.0;
+    mMsg_window.showContinueButton = FALSE;
+    mMsg_window.nameTextColor.r = 50;
+    mMsg_window.nameTextColor.g = 90;
+    mMsg_window.nameTextColor.b = 0;
+    mMsg_window.nameTextColor.a = 255;
+    mMsg_window.nameBackgroundColor.r = 160;
+    mMsg_window.nameBackgroundColor.g = 215;
+    mMsg_window.nameBackgroundColor.b = 30;
+    mMsg_window.nameBackgroundColor.a = 255;
+    mMsg_window.windowBackgroundColor.r = 235;
+    mMsg_window.windowBackgroundColor.g = 255;
+    mMsg_window.windowBackgroundColor.b = 235;
+    mMsg_window.windowBackgroundColor.a = 255;
+    mMsg_init_FontColor(&mMsg_window);
+    mMsg_init_NowDisplayLIne(&mMsg_window);
+    mMsg_window.continueButtonColor.r = 0;
+    mMsg_window.continueButtonColor.g = 0;
+    mMsg_window.continueButtonColor.b = 255;
+    mMsg_window.continueButtonColor.a = 0;
+    mMsg_window.fontScaleX = 1.0;
+    mMsg_window.fontScaleY = 1.0;
+    mMsg_window.unk_1A0 = 196;
+#ifndef AF_CN
+    mMsg_window.unk_1A4 = 66;
+#else
+    mMsg_window.unk_1A4 = 50;
+#endif
+    mMsg_window.textLines = MESSAGE_LINE_NUMBER;
+    mMsg_window.nowDisplayLine = 0;
+    mMsg_window.timer = 0.0f;
+    mMsg_SetTimer(&mMsg_window, 0.0f);
+    mMsg_window.continueButtonTimer = 0.0f;
+    mMsg_window.startTextCursolIdx = 0;
+    mMsg_window.endTextCursolIdx = 0;
+    mMsg_window.windowScale = 0.0f;
+    mMsg_window.textScale = 1.0f;
+    mMsg_window.requestedMainIndex = -1;
+    mMsg_window.requestedPriority = 0;
+    mMsg_window.mainIndex = 0;
+    mMsg_window.drawFlag = 0;
+    mMsg_window.cancelFlag = 0;
+    mMsg_window.cancelableFlag = 0;
+    mMsg_window.continueMsgNo = 0xFFFF;
+    mMsg_Unset_CancelNormalContinue(&mMsg_window);
+    mMsg_Unset_ForceNext(&mMsg_window);
+    mMsg_Unset_LockContinue(&mMsg_window);
+    func_8009FA58_jp(0.0f);
+    func_8009FB2C_jp(0);
+    mMsg_window.statusFlags &= ~0xC0;
+    mMsg_window.freeStrColorIdx[0] = 0;
+    mMsg_window.freeStrColorIdx[1] = 0;
+    mMsg_window.freeStrColorIdx[2] = 0;
+}
+#else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_init.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Get_Length_String.s")
 
@@ -195,7 +370,47 @@ void mMsg_Set_client_actor_p(MessageWindow* window, Actor* clientActor, s32 show
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_Check_idling_now.s")
 
+#ifdef AFTR
+s32 mMsg_MoveDataCut(char* data, s32 dstIdx, s32 srcIdx, s32 len, s32 spaceFlag) {
+    s32 newLen = len;
+
+    if (dstIdx < srcIdx) {
+        while (srcIdx < len) {
+            data[dstIdx] = data[srcIdx];
+            dstIdx++;
+            srcIdx++;
+        }
+
+        newLen -= srcIdx - dstIdx;
+
+        if (spaceFlag) {
+            while (dstIdx < len) {
+                data[dstIdx] = ' ';
+                dstIdx++;
+            }
+        }
+    } else if (dstIdx > srcIdx) {
+        s32 moveSize = len - srcIdx;
+        s32 offs = dstIdx - srcIdx;
+
+        newLen += offs;
+
+        if (newLen <= MESSAGE_TEXT_BUFFER_LEN) {
+            s32 i;
+            char* dstPtr = data + newLen - 1;
+            char* srcPtr = data + len - 1;
+
+            for (i = 0; i < moveSize; i++) {
+                *dstPtr-- = *srcPtr--;
+            }
+        }
+    }
+
+    return newLen;
+}
+#else
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_MoveDataCut.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/mMsg_CopyString.s")
 
@@ -448,13 +663,22 @@ s32 mMsg_CopyItem(MessageWindow* win, s32 num, char* data, s32 startIdx, s32 len
     }
 
     commandLen = mFont_CodeSize_idx_get(data, startIdx);
+#ifdef AFTR
+    string = S_item_str[num];
+#else
     string = win->itemStr[num];
+#endif
     stringLen = mMsg_Get_Length_String(string, ITEM_NAME_LEN);
     newLen = mMsg_MoveDataCut(data, startIdx + stringLen, startIdx + commandLen, len, FALSE);
     mMsg_CopyString(&data[startIdx], string, stringLen);
 
     return newLen;
 }
+
+#ifdef AFTR
+// pad to the size of the vanilla function, or everything after it in the code segment moves
+void mMsg_CopyItem_pad0(void) {}
+#endif
 
 #pragma GLOBAL_ASM("asm/jp/nonmatchings/code/m_msg_main/func_8009F670_jp.s")
 

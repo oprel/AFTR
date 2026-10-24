@@ -133,7 +133,7 @@ s32 mChoice_Get_MaxStringDotWidth(Choice* choice) {
     s32 choiceNum = choice->data.choiceNum;
     s32 maxWidth = 0;
 #ifdef LONG_CHOICES
-    char* str = (char*)choice - 0x7E;
+    char* str = (char*)choice - 0xB0;
 #endif
 
     for (i = 0; i < choiceNum; i++) {
@@ -307,7 +307,7 @@ void mChoice_SyncLongChoices_AndSetDisplay(Choice* choice) {
     s32 j;
 
     for (i = 0; i < choice->data.choiceNum; i++) {
-        char* scratch = (char*)choice - 0x7E + i * LONG_CHOICES;
+        char* scratch = (char*)choice - 0xB0 + i * LONG_CHOICES;
         char* src = choice->data.strings[i];
         s32 len = choice->data.stringLens[i];
 
@@ -332,8 +332,9 @@ void mChoice_LongChoicesPad1(UNUSED Choice* choice, UNUSED Game* game) {}
 
 void mChoice_LongChoicesPad2(UNUSED Choice* choice, UNUSED Game* game) {}
 
-// void mChoice_LongChoicesPad3(UNUSED Choice* choice, UNUSED Game* game) {}
-
+#if LONG_CHOICES<=16
+void mChoice_LongChoicesPad3(UNUSED Choice* choice, UNUSED Game* game) {}
+#endif
 #else
 
 s32 mChoice_Put_String_FREE0(char* data, s32 idx, s32 maxSize, Actor* actor) {
@@ -614,7 +615,7 @@ void mChoice_Load_ChoseStringFromRom(s32 choicePtr, char* str, s32 idx, Actor* a
     s32 slot = ((addr >> 1) & 3) ^ ((addr >> 20) & 2);
     char* scratch;
 
-    scratch = (char*)choice - 0x7E + slot * LONG_CHOICES;
+    scratch = (char*)choice - 0xB0 + slot * LONG_CHOICES;
 
     if (idx >= 0 && idx < 460) {
         u32* dataAddr;
@@ -1111,7 +1112,7 @@ void mChoice_DrawFont(Choice* choice, Game* game, s32 type) {
     s32 selected_idx;
 #ifdef LONG_CHOICES
     volatile s32 dummy;
-    char* str = (char*)choice - 0x7E;
+    char* str = (char*)choice - 0xB0;
 #endif
 
     x = choice->textX;

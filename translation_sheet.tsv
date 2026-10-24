@@ -7021,7 +7021,7 @@ message_data	1929	message_data	1929
 message_data	1930	message_data	1930		
 message_data	1931	message_data	1931		
 message_data	1932	message_data	1932		
-message_data	1933	message_data	1933	/What's up with that.*Huh\?//	too long
+message_data	1933	message_data	1933		too long
 message_data	1934	message_data	1934		
 message_data	1935	message_data	1935		
 message_data	1936	message_data	1936		
@@ -7116,7 +7116,7 @@ message_data	2024	message_data	2024
 message_data	2025	message_data	2025		
 message_data	2026	message_data	2026	/force	jump/choice target mismatch
 message_data	2027	message_data	2027		
-message_data	2028	message_data	2028	/<<PAUSE \[08\]>>\nYes, that's acceptable!//	too long
+message_data	2028	message_data	2028		too long
 message_data	2029	message_data	2029		
 message_data	2030	message_data	2030		
 message_data	2031	message_data	2031		
@@ -7137,7 +7137,7 @@ message_data	2045	message_data	2045
 message_data	2046	message_data	2046		
 message_data	2047	message_data	2047		
 message_data	2048	message_data	2048		
-message_data	2049	message_data	2049		
+message_data	2049	message_data	2049	/X Button/R Button/	
 message_data	2050	message_data	2050		
 message_data	2051	message_data	2051		
 message_data	2052	message_data	2052		
@@ -7169,8 +7169,8 @@ message_data	2077	message_data	2077
 message_data	2078	message_data	2078		
 message_data	2079	message_data	2079		
 message_data	2080	message_data	2080		
-message_data	2081	message_data	2081		
-message_data	2082	message_data	2082		
+message_data	2081	message_data	2081	/And don't forget to introduce.*wishing well.*<<MSGCLEAR>>//	changed feature
+message_data	2082	message_data	2082	/,<<PAUSE .*Go/. Go	changed feature
 message_data	2083	message_data	2083		
 message_data	2084	message_data	2084		
 message_data	2085	message_data	2085		
@@ -7182,7 +7182,7 @@ message_data	2090	message_data	2090
 message_data	2091	message_data	2091		
 message_data	2092	message_data	2092		
 message_data	2093	message_data	2093		
-message_data	2094	message_data	2094	/They're cutting.*?rate, t/T/	too long
+message_data	2094	message_data	2094		too long
 message_data	2095	message_data	2095		
 message_data	2096	message_data	2096		
 message_data	2097	message_data	2097		
@@ -7196,7 +7196,7 @@ message_data	2104	message_data	2104	/force	jump/choice target mismatch
 message_data	2105	message_data	2105	/force	jump/choice target mismatch
 message_data	2106	message_data	2106	/force	jump/choice target mismatch
 message_data	2107	message_data	2107	/force	jump/choice target mismatch
-message_data	2108	message_data	2108	/Well.*?thanks for your help.//	too long
+message_data	2108	message_data	2108		too long
 message_data	2109	message_data	2109		
 message_data	2110	message_data	2110		
 message_data	2111	message_data	2111		
@@ -7208,7 +7208,7 @@ message_data	2116	message_data	2116
 message_data	2117	message_data	2117		
 message_data	2118	message_data	2118		
 message_data	2119	message_data	2119		
-message_data	2120	message_data	2120	/<<MSGCLEAR>>After all.*?<<STR_TAIL>>!<<BTN>>//	too long
+message_data	2120	message_data	2120		too long
 message_data	2121	message_data	2121		
 message_data	2122	message_data	2122		
 message_data	2123	message_data	2123		
@@ -7384,7 +7384,7 @@ message_data	2292	message_data	2292
 message_data	2293	message_data	2293		
 message_data	2294	message_data	2294		
 message_data	2295	message_data	2295		
-message_data	2296	message_data	2296	/<<MSGCLEAR>>You know you can.*?rocket science.<<BTN>>//	too long
+message_data	2296	message_data	2296		too long
 message_data	2297	message_data	2297		
 message_data	2298	message_data	2298		
 message_data	2299	message_data	2299		
@@ -7410,7 +7410,7 @@ message_data	2318	message_data	2318
 message_data	2319	message_data	2319		
 message_data	2320	message_data	2320		
 message_data	2321	message_data	2321		
-message_data	2322	message_data	2322	/I'm so kooky.*?Yes, interesting!//	too long
+message_data	2322	message_data	2322		too long
 message_data	2323	message_data	2323		
 message_data	2324	message_data	2324		
 message_data	2325	message_data	2325		
@@ -9660,7 +9660,7 @@ message_data	4591	message_data	4591
 message_data	4592	message_data	4592		
 message_data	4593	message_data	4593	<<DEMONPC0 [0000FF]>>When someone asks me to run an errand, I always write it down right away.<<BTN>> <<MSGCLEAR>>Who asked,<<PAUSE [06]>>who it's for,<<PAUSE [06]>>and what to take...<<PAUSE [04]>>...<<PAUSE [04]>>...<<BTN>> <<MSGCLEAR>><<DEMONPC0 [000015]>>Just write down those details,<<PAUSE [06]>>then cross them off when you're done.<<PAUSE [08]>><<STR_TAIL>>!<<BTN>> <<MSGCLEAR>>It's easy when you only have a few errands,<<PAUSE [06]>>but taking on lots at once can get confusing! <<MSGEND>>	TEMP
 message_data	4594	message_data	4594		
-message_data	4595	message_data	4595		
+message_data	4595	message_data	4595		TODO, changed feature
 message_data	4596	message_data	4596		
 message_data	4597	message_data	4597		
 message_data	4598	message_data	4598		
@@ -14121,9 +14121,9 @@ message_data	9052	message_data	9052
 message_data	9053	message_data	9053		
 message_data	9054	message_data	9054		
 message_data	9055	message_data	9055		
-message_data	9056	message_data	9056		
+message_data	9056	message_data	9056		TODO, changed feature
 message_data	9057	message_data	9057		
-message_data	9058	message_data	9058	/<<MSGCLEAR>><<LINEOFS \[8A\]>>.*?<<CHARSCALE \[30\]>>!<<BTN>>//	too long
+message_data	9058	message_data	9058		too long
 message_data	9059	message_data	9059		
 message_data	9060	message_data	9060		
 message_data	9061	message_data	9061		
@@ -14279,11 +14279,11 @@ message_data	9210	message_data	9210
 message_data	9211	message_data	9211		
 message_data	9212	message_data	9212		
 message_data	9213	message_data	9213		
-message_data	9214	message_data	9214	/<<MSGCLEAR>>You're probably wondering.*?I tell you!<<BTN>>//	too long
-message_data	9215	message_data	9215	/one and all,//	too long
+message_data	9214	message_data	9214		too long
+message_data	9215	message_data	9215		too long
 message_data	9216	message_data	9216		
-message_data	9217	message_data	9217	/<<DEMONPC0 \[00000B\]>><<PAUSE \[0A\]>>What.*?<<DEMONPC0 \[000005\]>>//	too long
-message_data	9218	message_data	9218	/Whoa! <<PAUSE \[0A\]>>//	too long
+message_data	9217	message_data	9217		too long
+message_data	9218	message_data	9218		too long
 message_data	9219	message_data	9219		
 message_data	9220	message_data	9220		
 message_data	9221	message_data	9221		
@@ -14673,7 +14673,7 @@ message_data	9604	message_data	9604
 message_data	9605	message_data	9605		
 message_data	9606	message_data	9606		
 message_data	9607	message_data	9607		
-message_data	9608	message_data	9608		
+message_data	9608	message_data	9608		TODO, changed feature
 message_data	9609	message_data	9609		
 message_data	9610	message_data	9610		
 message_data	9611	message_data	9611		
@@ -15397,7 +15397,7 @@ message_data	10328	message_data	10328
 message_data	10329	message_data	10329		
 message_data	10330			<<DEMONPC0 [0000FF]>>Hey,<<PAUSE [08]>>have you ever visited another town?<<BTN>> <<MSGCLEAR>><<DEMONPC0 [000015]>>Each town sells different things,<<PAUSE [04]>>you know. <<MSGEND>>	TEMP
 message_data	10331	message_data	10331		
-message_data	10332	message_data	10332		
+message_data	10332	message_data	10332		TODO, changed feature
 message_data	10333	message_data	10333		
 message_data	10334	message_data	10334		
 message_data	10335	message_data	10335		
@@ -16025,7 +16025,7 @@ message_data	10956	message_data	10956
 message_data	10957	message_data	10957		
 message_data	10958	message_data	10958		
 message_data	10959	message_data	10959		
-message_data	10960	message_data	10960	/<<TEXTCOLOR \[969696\]>><<LINEOFS \[84\]>><<LINESCALE \[14\]>>You raking in the cash.*?Brutal!//	too long
+message_data	10960	message_data	10960		too long
 message_data	10961	message_data	10961		
 message_data	10962	message_data	10962		
 message_data	10963	message_data	10963		
@@ -16039,7 +16039,7 @@ message_data	10970	message_data	10970
 message_data	10971	message_data	10971		
 message_data	10972	message_data	10972		
 message_data	10973	message_data	10973		
-message_data	10974	message_data	10974	/Good impression.*?Great!//	too long
+message_data	10974	message_data	10974		too long
 message_data	10975	message_data	10975		
 message_data	10976	message_data	10976		
 message_data	10977	message_data	10977		
@@ -16083,23 +16083,23 @@ message_data	11014	message_data	11014
 message_data	11015	message_data	11015		
 message_data	11016	message_data	11016		
 message_data	11017	message_data	12493		
-message_data	11018	message_data	12494		
-message_data	11019	message_data	12495		
+message_data	11018	message_data	12494	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11019	message_data	12495	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11020	message_data	12513		
-message_data	11021	message_data	12514		
-message_data	11022	message_data	12515		
+message_data	11021	message_data	12514	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11022	message_data	12515	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11023	message_data	12533		
-message_data	11024	message_data	12534		
-message_data	11025	message_data	12535		
+message_data	11024	message_data	12534	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11025	message_data	12535	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11026	message_data	12553		
-message_data	11027	message_data	12554		
-message_data	11028	message_data	12555		
+message_data	11027	message_data	12554	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11028	message_data	12555	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11029	message_data	12573		
-message_data	11030	message_data	12574		
-message_data	11031	message_data	12575		
+message_data	11030	message_data	12574	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11031	message_data	12575	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11032	message_data	12593		
-message_data	11033	message_data	12594		
-message_data	11034	message_data	12595		
+message_data	11033	message_data	12594	/<<MSGCONTINUE>>/<<MSGEND>>/	
+message_data	11034	message_data	12595	/<<MSGCONTINUE>>/<<MSGEND>>/	
 message_data	11035	message_data	11016		
 message_data	11036	message_data	11016		
 message_data	11037	message_data	11016		

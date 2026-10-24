@@ -19,7 +19,11 @@ typedef struct FontSentence {
     u8 unk_00[0x88];
 } FontSentence; // size = 0x88
 
+#ifdef AFTR
+#define MESSAGE_TEXT_BUFFER_LEN 2048
+#else
 #define MESSAGE_TEXT_BUFFER_LEN 1024
+#endif
 #ifndef AF_CN
 #define MESSAGE_IDX_MAX 0x2DE8
 #else
