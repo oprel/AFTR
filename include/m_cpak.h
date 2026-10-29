@@ -57,17 +57,17 @@ s32 mCPk_InitPak(s32 channel);
 PrivateInfo* mCPk_GetSaveFilePrivateP(void);
 s32 mCPk_SavePak(PrivateInfo* priv, Animal_c* animal, PakInfo* info);
 s32 mCPk_PakPrivateLoad(PrivateInfo* priv, Animal_c* animal, PakInfo* info);
-s32 func_80079760_jp(void);
-void* func_80079838_jp(void);
-s32 func_800798DC_jp(PakInfo* info);
-UNK_RET func_80079AAC_jp(void);
-UNK_RET func_80079D00_jp(void);
-s32 func_80079E54_jp(D801047B0Struct* arg0, PakInfo* info);
-UNK_RET func_80079EA4_jp(UNK_PTR, PakInfo* info);
-void func_80079EDC_jp(void);
-s32 func_80079F44_jp(void);
-void func_8007A008_jp(void);
+s32 mCPk_GetPakPlayerNo(void);
+void* mCPk_GetPakPlayerName(void);
+s32 mCPk_SetPakCopyProtect(PakInfo* info);
+UNK_RET mCPk_GetPermissionSavePakPlayer(void);
+UNK_RET mCPk_GetPermissionSavePakMailAndOpen(void);
+s32 mCPk_SavePakMail2(D801047B0Struct* arg0, PakInfo* info);
+UNK_RET mCPk_LoadPakMail2(UNK_PTR, PakInfo* info);
+s32 mCPk_EraseForestData(void);
+s32 mCPk_CheckCheckSumPlayer(void);
+void mCPk_CheckCheckSumPlayerErase(void);
 PakInfo* mCPk_get_pkinfo(void);
-s32 func_8007A080_jp(void);
+s32 mCPk_CheckPakID(void);
 
 #endif

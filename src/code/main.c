@@ -108,7 +108,7 @@ void mainproc(void* arg) {
     func_800D955C_jp(2);
     func_800D955C_jp(3);
 
-    func_8008EE24_jp();
+    mFRm_FlashRomInit();
 
     new_Debug_mode();
     SREG(0) = 0;

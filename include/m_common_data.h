@@ -138,7 +138,7 @@ typedef struct Save {
     /* 0x0F88C */ UNK_TYPE1 unk_0F88A[0x10];
     /* 0x0F89C */ lbRTC_time_c unk_0F89C;
     /* 0x0F8A4 */ lbRTC_time_c unk_0F8A4;
-    /* 0x0F8AC */ UNK_TYPE1 unk_0F8AC;
+    /* 0x0F8AC */ u8 unk_0F8AC;
     /* 0x0F8AD */ u8 snowmanYear;  // Year last snowman was built.
     /* 0x0F8AE */ u8 snowmanMonth; // Month last snowman was built.
     /* 0x0F8AF */ u8 snowmanDay;   // Day last snowman was built.
@@ -218,7 +218,9 @@ typedef struct CommonData {
     /* 0x10A6B */ u8 unk10A6B;
     /* 0x10A6C */ xyz_t unk_10A6C;
     /* 0x10A78 */ u8 unk_10A78;
-    /* 0x10A79 */ UNK_TYPE1 unk_10A79[0x7];
+    /* 0x10A79 */ UNK_TYPE1 unk_10A79[0x3];
+    /* 0x10A7C */ u8 unk_10A7C;
+    /* 0x10A7D */ UNK_TYPE1 unk_10A7D[0x3];
     /* 0x10A80 */ UNK_TYPE1 unk_10A80[0x2];
     /* 0x10A82 */ s16 unk_10A82;
     /* 0x10A84 */ UNK_TYPE1 unk_10A84[0x28];

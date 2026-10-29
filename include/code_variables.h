@@ -184,7 +184,7 @@ extern s32 CanLookGokiCount;
 // extern UNK_TYPE D_80104688_jp;
 // extern UNK_TYPE D_80104690_jp;
 
-// extern UNK_TYPE D_801047A8_jp;
+// extern UNK_TYPE mCPk_dummyName;
 // extern UNK_TYPE D_801047B0_jp;
 // extern UNK_TYPE D_801047B8_jp;
 // extern UNK_TYPE debug_display_output_proc;

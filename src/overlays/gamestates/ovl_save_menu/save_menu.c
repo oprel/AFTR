@@ -44,7 +44,7 @@ void save_menu_data_save_from(Game_SaveMenu* saveMenu) {
     u8 playerNo = common_data.playerNumber;
     if ((playerNo) != 4) {
         common_data.privateInfo->exists = TRUE;
-        if (func_8008F7C8_jp() != -1) {
+        if (mFRm_FlashSaveAllData() != -1) {
             saveMenu->error = SAVE_ERROR_EXIT; // OK
         } else {
             saveMenu->error = SAVE_ERROR_FLASHROM;
@@ -70,7 +70,7 @@ void save_menu_data_save_pak(Game_SaveMenu* saveMenu) {
         if (mLd_PlayerManKindCheck() == FALSE) {
             common_data.privateInfo->exists = FALSE;
         }
-        if (func_8008F7C8_jp() != -1) {
+        if (mFRm_FlashSaveAllData() != -1) {
             saveMenu->error = SAVE_ERROR_EXIT; // OK
         } else {
             saveMenu->error = SAVE_ERROR_FLASHROM;

@@ -7,7 +7,7 @@
 
 #include "padmgr.h"
 
-#include "6B8F20.h"
+#include "m_immig.h"
 #include "s_cpak.h"
 
 PakInfo l_paks_info;
@@ -18,7 +18,7 @@ u32 sGameCode = 0x4E41464A;
 char* l_game_name = D_8010EF70_jp;
 char* l_ext_name_table[2] = { "\x1A", "\x1B" };
 PakInfo* g_paks_info_p = &l_paks_info;
-D801047A8Struct D_801047A8_jp = { { 0xD4, 0x8E, 0xA6, 0x90, 0x85, 0x42, 0x00, 0x00 } };
+u8 mCPk_dummyName[8] = { 0xD4, 0x8E, 0xA6, 0x90, 0x85, 0x42, 0x00, 0x00 };
 
 const size_t sFileSizes[2] = { sizeof(Passport), sizeof(D801047B0Struct) };
 
@@ -38,7 +38,7 @@ s32 mCPk_NoteNum(PakInfo* info) {
     return sCPk_FileNum(&info->pfsInfo, &info->maxFiles, &info->filesUsed);
 }
 
-s32 func_80078F34_jp(PakInfo* info) {
+s32 mCPk_AllFileState(PakInfo* info) {
     OSPfsInfo* pfsInfo = &info->pfsInfo;
     OSPfsState* pfsStates = info->unk_94;
     s32* var_s1 = info->unk_294;
@@ -130,7 +130,7 @@ void mCPk_SetForestPakState(PakInfo* info, u8 state) {
     }
 }
 
-s32 func_8007920C_jp(PakInfo* info, void* buffer) {
+s32 mCPk_Save(PakInfo* info, void* buffer) {
     s32 ret;
     s32 i;
     u32 file_size;
@@ -155,7 +155,7 @@ s32 func_8007920C_jp(PakInfo* info, void* buffer) {
     return ret;
 }
 
-s32 func_800792FC_jp(PakInfo* info, void* buffer) {
+s32 mCPk_Load(PakInfo* info, void* buffer) {
     s32 ret;
     u32 file_size;
 
@@ -190,16 +190,16 @@ s32 mCPk_SavePak(PrivateInfo* priv, Animal_c* animal, PakInfo* info) {
     mCPk_SetPrivateSavefile(priv);
     mem_copy((void*)&l_pak_ctrl.passport.animal, (void*)animal, sizeof(Animal_c));
     l_pak_ctrl.passport.unk_0000 =
-        func_8008EEB4_jp(&l_pak_ctrl.passport, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
+        mFRm_GetFlatCheckSum(&l_pak_ctrl.passport, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
 
-    return func_8007920C_jp(info, &l_pak_ctrl.passport);
+    return mCPk_Save(info, &l_pak_ctrl.passport);
 }
 
 s32 mCPk_PakPrivateLoad(PrivateInfo* priv, Animal_c* animal, PakInfo* info) {
     s32 ret;
 
     mCPk_SetForestPakState(info, 0);
-    ret = func_800792FC_jp(info, &l_pak_ctrl.passport);
+    ret = mCPk_Load(info, &l_pak_ctrl.passport);
 
     if (ret == 1) {
         l_pak_ctrl.unk_1204 = 1;
@@ -219,7 +219,7 @@ s32 mCPk_PakPrivateLoad(PrivateInfo* priv, Animal_c* animal, PakInfo* info) {
     return ret;
 }
 
-s32 func_800794E4_jp(s32* arg0, s32 arg1, PakInfo* info, void* arg3) {
+s32 mCPk_CheckData_common(s32* arg0, s32 arg1, PakInfo* info, void* arg3) {
     OSPfsInfo* pfsInfo = &info->pfsInfo;
     void* buffer;
     s32 ret = FALSE;
@@ -258,7 +258,7 @@ s32 func_800794E4_jp(s32* arg0, s32 arg1, PakInfo* info, void* arg3) {
     return ret;
 }
 
-s32 func_8007967C_jp(s32* arg0, s32 arg1, PakInfo* info) {
+s32 mCPk_CheckData(s32* arg0, s32 arg1, PakInfo* info) {
     UNUSED s32 pad;
     s32 ret;
     void* sp1C;
@@ -269,7 +269,7 @@ s32 func_8007967C_jp(s32* arg0, s32 arg1, PakInfo* info) {
         sp1C = zelda_malloc(info->pfsState.file_size);
     }
 
-    ret = func_800794E4_jp(arg0, arg1, info, sp1C);
+    ret = mCPk_CheckData_common(arg0, arg1, info, sp1C);
     if ((arg1 != 0) && (sp1C != NULL)) {
         zelda_free(sp1C);
     }
@@ -277,7 +277,7 @@ s32 func_8007967C_jp(s32* arg0, s32 arg1, PakInfo* info) {
     return ret;
 }
 
-UNK_RET func_80079708_jp(s32 arg0) {
+UNK_RET mCPk_PakDataStatus2Permission(s32 arg0) {
     s32 ret;
 
     switch (arg0) {
@@ -310,7 +310,7 @@ UNK_RET func_80079708_jp(s32 arg0) {
     return ret;
 }
 
-s32 func_80079760_jp(void) {
+s32 mCPk_GetPakPlayerNo(void) {
     PakInfo* info = mCPk_get_pkinfo();
     PrivateInfo* iter = &common_data.save.saveFilePrivateInfo[0];
     s32 ret = -1;
@@ -319,7 +319,7 @@ s32 func_80079760_jp(void) {
 
     mCPk_SetForestPakState(info, 0);
 
-    temp_v0_2 = func_800792FC_jp(info, &l_pak_ctrl.passport);
+    temp_v0_2 = mCPk_Load(info, &l_pak_ctrl.passport);
 
     if (temp_v0_2 == 1) {
         l_pak_ctrl.unk_1204 = 1;
@@ -339,14 +339,14 @@ s32 func_80079760_jp(void) {
     return ret;
 }
 
-void* func_80079838_jp(void) {
+void* mCPk_GetPakPlayerName(void) {
     PersonalID_c* id = NULL;
     PakInfo* info = mCPk_get_pkinfo();
-    void* sp24 = &D_801047A8_jp;
+    void* sp24 = &mCPk_dummyName;
 
     if (l_pak_ctrl.unk_1204 == 0) {
         mCPk_SetForestPakState(info, 0);
-        if (func_800792FC_jp(info, &l_pak_ctrl.passport) == 1) {
+        if (mCPk_Load(info, &l_pak_ctrl.passport) == 1) {
             l_pak_ctrl.unk_1204 = 1;
             id = &l_pak_ctrl.passport.priv.playerId;
         }
@@ -361,14 +361,14 @@ void* func_80079838_jp(void) {
     return sp24;
 }
 
-s32 func_800798DC_jp(PakInfo* info) {
+s32 mCPk_SetPakCopyProtect(PakInfo* info) {
     UNUSED s32 pad;
     u32 temp_v0;
     s32 ret = FALSE;
 
     if (l_pak_ctrl.unk_1204 == 0) {
         mCPk_SetForestPakState(info, 0);
-        if (func_800792FC_jp(info, &l_pak_ctrl.passport) == 1) {
+        if (mCPk_Load(info, &l_pak_ctrl.passport) == 1) {
             l_pak_ctrl.unk_1204 = 1;
         }
     }
@@ -376,22 +376,22 @@ s32 func_800798DC_jp(PakInfo* info) {
         temp_v0 = fqrand() * 65534.0f;
         l_pak_ctrl.unk_1208 = temp_v0;
         l_pak_ctrl.passport.unk_1100 = temp_v0;
-        l_pak_ctrl.passport.unk_0000 = func_8008EEB4_jp(&l_pak_ctrl, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
+        l_pak_ctrl.passport.unk_0000 = mFRm_GetFlatCheckSum(&l_pak_ctrl, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
 
-        if (func_8007920C_jp(info, &l_pak_ctrl.passport) == 1) {
+        if (mCPk_Save(info, &l_pak_ctrl.passport) == 1) {
             ret = TRUE;
         }
     }
     return ret;
 }
 
-s32 func_80079A24_jp(PakInfo* info) {
+s32 mCPk_CheckPakCopyProtect(PakInfo* info) {
     s32 ret;
 
     if (l_pak_ctrl.unk_1208 != 0xFFFF) {
         ret = FALSE;
         mCPk_SetForestPakState(info, 0);
-        if (func_800792FC_jp(info, &l_pak_ctrl.passport) == 1) {
+        if (mCPk_Load(info, &l_pak_ctrl.passport) == 1) {
             l_pak_ctrl.unk_1204 = 1;
             if (l_pak_ctrl.unk_1208 == l_pak_ctrl.passport.unk_1100) {
                 ret = TRUE;
@@ -403,16 +403,16 @@ s32 func_80079A24_jp(PakInfo* info) {
     return ret;
 }
 
-UNK_RET func_80079AAC_jp(void) {
+UNK_RET mCPk_GetPermissionSavePakPlayer(void) {
     PakInfo* info = mCPk_get_pkinfo();
     s32 ret = 0;
     s32 sp1C;
 
     mCPk_SetForestPakState(info, 0);
 
-    if (func_80079A24_jp(info) == 1) {
-        if (func_8007967C_jp(&sp1C, 0, info) == 1) {
-            ret = func_80079708_jp(sp1C);
+    if (mCPk_CheckPakCopyProtect(info) == 1) {
+        if (mCPk_CheckData(&sp1C, 0, info) == 1) {
+            ret = mCPk_PakDataStatus2Permission(sp1C);
         }
     } else {
         ret = 1;
@@ -421,14 +421,14 @@ UNK_RET func_80079AAC_jp(void) {
     return ret;
 }
 
-void func_80079B28_jp(UNK_PTR arg0, u32 arg1, PakInfo* info) {
+void mCPk_CheckCheckSumMail(UNK_PTR arg0, u32 arg1, PakInfo* info) {
     UNUSED s32 pad[2];
-    s32 temp_v0 = func_80079EA4_jp(arg0, info);
+    s32 temp_v0 = mCPk_LoadPakMail2(arg0, info);
     OSMesgQueue* queue;
     PakInfo* info2;
 
     if (temp_v0 == 1) {
-        if (func_8008EE7C_jp(arg0, arg1) != 0) {
+        if (mFRm_ReturnCheckSum(arg0, arg1) != 0) {
             mCPk_SetForestPakState(info, 1);
             queue = padmgr_LockSerialMesgQ();
             sCPk_DeleteFile(&info->pfsInfo, &info->pfsState);
@@ -443,7 +443,7 @@ void func_80079B28_jp(UNK_PTR arg0, u32 arg1, PakInfo* info) {
     }
 }
 
-UNK_RET func_80079BF8_jp(PakInfo* info) {
+UNK_RET mCPk_GetPermissionSavePakMail(PakInfo* info) {
     UNUSED s32 pad;
     s32 sp28;
     s32 ret = 0;
@@ -453,19 +453,19 @@ UNK_RET func_80079BF8_jp(PakInfo* info) {
         mCPk_SetForestPakState(info, 1);
         sp20 = zelda_malloc(info->pfsState.file_size);
         if (sp20 != NULL) {
-            func_80079B28_jp(sp20, info->pfsState.file_size, info);
+            mCPk_CheckCheckSumMail(sp20, info->pfsState.file_size, info);
         }
-        if (func_800794E4_jp(&sp28, 1, info, sp20) == TRUE) {
-            ret = func_80079708_jp(sp28);
+        if (mCPk_CheckData_common(&sp28, 1, info, sp20) == TRUE) {
+            ret = mCPk_PakDataStatus2Permission(sp28);
         }
         if (sp20 != NULL) {
             zelda_free(sp20);
         }
-    } else if (func_800966E0_jp() == 1) {
+    } else if (mImm_CheckStartDataCategory() == 1) {
         mCPk_SetForestPakState(info, 0);
-        if (func_80079A24_jp(info) == 1) {
-            if (func_8007967C_jp(&sp28, 0, info) == 1) {
-                ret = func_80079708_jp(sp28);
+        if (mCPk_CheckPakCopyProtect(info) == 1) {
+            if (mCPk_CheckData(&sp28, 0, info) == 1) {
+                ret = mCPk_PakDataStatus2Permission(sp28);
             }
         } else {
             ret = 1;
@@ -475,21 +475,21 @@ UNK_RET func_80079BF8_jp(PakInfo* info) {
     return ret;
 }
 
-UNK_RET func_80079D00_jp(void) {
+UNK_RET mCPk_GetPermissionSavePakMailAndOpen(void) {
     PakInfo* info = mCPk_get_pkinfo();
     s32 ret = 0;
 
     if (mCPk_PakOpen(info, 0) == TRUE) {
-        ret = func_80079BF8_jp(info);
+        ret = mCPk_GetPermissionSavePakMail(info);
     }
 
     return ret;
 }
 
-s32 func_80079D50_jp(D801047B0Struct* arg0, PakInfo* info, u8* index) {
+s32 mCPk_SavePakMail_init(D801047B0Struct* arg0, PakInfo* info, u8* index) {
     mCPk_SetForestPakState(info, 1);
-    arg0->unk_0000 = func_8008EEB4_jp(arg0, sizeof(D801047B0Struct), arg0->unk_0000);
-    if (func_8007920C_jp(info, arg0) == 1) {
+    arg0->unk_0000 = mFRm_GetFlatCheckSum(arg0, sizeof(D801047B0Struct), arg0->unk_0000);
+    if (mCPk_Save(info, arg0) == 1) {
         if (mLd_PlayerManKindCheck()) {
             if (mCPk_SavePak(common_data.privateInfo, mNpc_GetInAnimalP(), info) == 1) {
                 *index = 1;
@@ -506,8 +506,8 @@ s32 func_80079D50_jp(D801047B0Struct* arg0, PakInfo* info, u8* index) {
     return -1;
 }
 
-s32 func_80079E14_jp(UNUSED D801047B0Struct* arg0, UNUSED PakInfo* info, u8* arg2) {
-    s32 ret = func_80090044_jp();
+s32 mCPk_SavePakMail_main(UNUSED D801047B0Struct* arg0, UNUSED PakInfo* info, u8* arg2) {
+    s32 ret = mFRm_FlashSaveAllData_bg();
 
     if (ret != 0) {
         *arg2 = 0;
@@ -517,9 +517,9 @@ s32 func_80079E14_jp(UNUSED D801047B0Struct* arg0, UNUSED PakInfo* info, u8* arg
 }
 
 typedef s32 (*D801047B0Func)(D801047B0Struct*, PakInfo*, u8*);
-D801047B0Func D_801047B0_jp[2] = { func_80079D50_jp, func_80079E14_jp };
+D801047B0Func D_801047B0_jp[2] = { mCPk_SavePakMail_init, mCPk_SavePakMail_main };
 
-s32 func_80079E54_jp(D801047B0Struct* arg0, PakInfo* info) {
+s32 mCPk_SavePakMail2(D801047B0Struct* arg0, PakInfo* info) {
     static u8 D_801047B8_jp = 0;
 
     if (D_801047B8_jp >= ARRAY_COUNT(D_801047B0_jp)) {
@@ -529,21 +529,21 @@ s32 func_80079E54_jp(D801047B0Struct* arg0, PakInfo* info) {
     return D_801047B0_jp[D_801047B8_jp](arg0, info, &D_801047B8_jp);
 }
 
-s32 func_80079EA4_jp(UNK_PTR arg0, PakInfo* info) {
+s32 mCPk_LoadPakMail2(UNK_PTR arg0, PakInfo* info) {
     mCPk_SetForestPakState(info, 1);
-    return func_800792FC_jp(info, arg0);
+    return mCPk_Load(info, arg0);
 }
 
-void func_80079EDC_jp(void) {
+s32 mCPk_EraseForestData(void) {
     PakInfo* info = mCPk_get_pkinfo();
 
     mCPk_ClearPassport(&l_pak_ctrl.passport);
     mCPk_SetForestPakState(info, 0);
-    l_pak_ctrl.passport.unk_0000 = func_8008EEB4_jp(&l_pak_ctrl, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
-    func_8007920C_jp(info, &l_pak_ctrl.passport);
+    l_pak_ctrl.passport.unk_0000 = mFRm_GetFlatCheckSum(&l_pak_ctrl, sizeof(Passport), l_pak_ctrl.passport.unk_0000);
+    return mCPk_Save(info, &l_pak_ctrl.passport);
 }
 
-s32 func_80079F44_jp(void) {
+s32 mCPk_CheckCheckSumPlayer(void) {
     PakInfo* info = mCPk_get_pkinfo();
     u16 sp2A = 0;
     s32 sp24;
@@ -551,11 +551,11 @@ s32 func_80079F44_jp(void) {
 
     mCPk_SetForestPakState(info, 0);
 
-    sp24 = func_800792FC_jp(info, &l_pak_ctrl.passport);
+    sp24 = mCPk_Load(info, &l_pak_ctrl.passport);
 
     if (sp24 == 1) {
         l_pak_ctrl.unk_1204 = 1;
-        sp2A = func_8008EE7C_jp(&l_pak_ctrl, sizeof(Passport));
+        sp2A = mFRm_ReturnCheckSum(&l_pak_ctrl, sizeof(Passport));
     } else if (sp24 == -1) {
         ret = -2;
     } else {
@@ -572,9 +572,9 @@ s32 func_80079F44_jp(void) {
     return ret;
 }
 
-void func_8007A008_jp(void) {
+void mCPk_CheckCheckSumPlayerErase(void) {
     PakInfo* info = mCPk_get_pkinfo();
-    s32 temp_v0 = func_80079F44_jp();
+    s32 temp_v0 = mCPk_CheckCheckSumPlayer();
     OSMesgQueue* queue;
 
     if ((temp_v0 == 0) || (temp_v0 == -2)) {
@@ -589,7 +589,7 @@ PakInfo* mCPk_get_pkinfo(void) {
     return g_paks_info_p;
 }
 
-s32 func_8007A080_jp(void) {
+s32 mCPk_CheckPakID(void) {
     PakInfo* info = mCPk_get_pkinfo();
     s32 ret = TRUE;
 

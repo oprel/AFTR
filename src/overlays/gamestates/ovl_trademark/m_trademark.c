@@ -20,7 +20,7 @@
 #include "m_bgm.h"
 #include "m_cpak.h"
 #include "m_font.h"
-#include "6B8F20.h"
+#include "m_immig.h"
 #include "6EC9E0.h"
 #include "segment_symbols.h"
 #include "macros.h"
@@ -465,7 +465,7 @@ void trademark_move(Game_Trademark* this) {
         }
 
         if (this->unk_25A71 != 1) {
-            if (func_8008F768_jp(&B_80808560_jp, &B_80818560_jp) == 1) {
+            if (mFRm_RepairSaveData(&B_80808560_jp, &B_80818560_jp) == 1) {
                 this->unk_25A71 = 1;
             }
         }
@@ -569,12 +569,12 @@ void trademark_init(Game* thisx) {
     common_data.playerNumber = 0;
     common_data.playerDataMode = 0;
     common_data.sceneFromTitleDemo = -1;
-    func_80095414_jp();
+    mImm_InitGameStart_init();
     mNpc_ClearInAnimal();
     mNpc_FirstClearGoodbyMail();
     func_800BB0E8_jp();
-    func_8008FA50_jp();
-    func_8008F210_jp();
+    mFRm_ClearFlashromControl();
+    mFRm_ClearRepair();
 
     DmaMgr_RequestSyncDebug(&this->unk_00260, SEGMENT_ROM_START(segment_01136000), SEGMENT_ROM_SIZE(segment_01136000),
                             "../m_trademark.c", 1081);

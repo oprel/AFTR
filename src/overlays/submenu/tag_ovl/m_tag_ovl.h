@@ -54,7 +54,7 @@ typedef struct mTG_table_s {
 // size = 0x54
 typedef struct mTG_tag_c {
     /* 0x00 */ u8 type;
-    /* 0x01 */ u8 arrowDir;  // 0 = none, 1 = right, 2 = left (confirmed values)
+    /* 0x01 */ u8 arrowDir;  // 0 = none, 1 = right, 2 = left
     /* 0x02 */ u8 str2Type;  // mTG_QstrType
     /* 0x03 */ u8 flags;
     /* 0x04 */ f32 unk_04[2];

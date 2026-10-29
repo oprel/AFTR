@@ -49,12 +49,12 @@ typedef struct PrivateInfo {
     /* 0x000 */ PersonalID_c playerId; 
     /* 0x010 */ s8 gender;
     /* 0x011 */ s8 face;
-    /* 0x012 */ s8 resetCount; 
+    /* 0x012 */ u8 resetCount; 
     /* 0x013 */ MuseumRecord museumRecord;
     /* 0x014 */ PrivateInventory inventory;
     /* 0x040 */ mQst_delivery_c deliveries[mPr_DELIVERY_QUEST_NUM]; /* delivery quests */
     /* 0x25C */ QuestErrand errands[mPr_ERRAND_QUEST_NUM]; /* errand quests */
-    /* 0x3EC */ UNK_TYPE1 unk_3EC[0x2];
+    /* 0x3EC */ u16 unk_3EC;
     /* 0x3EE */ MailHeaderCommon savedMailHeader;
     /* 0x40A */ Mail_c mail[mPr_INVENTORY_MAIL_COUNT];
     /* 0xA72 */ u16 backgroundTextureId;
@@ -69,7 +69,8 @@ typedef struct PrivateInfo {
     /* 0xAC0 */ s32 completedInsect;
     /* 0xAC4 */ UNK_TYPE1 unk_AC4[0x8];
     /* 0xACC */ Anmremail remail;
-    /* 0xADE */ UNK_TYPE1 unk_ADE[0x6];
+    /* 0xADE */ UNK_TYPE1 unk_ADE[0x2];
+    /* 0xAE0 */ u32 resetCode;
     /* 0xAE4 */ PrivateAnimalMemory animalMemory;
     /* 0xAEC */ u8 completeFishInsectFlags;
     /* 0xAEF */ UNK_TYPE1 unk_AEF[0x2];
