@@ -87,8 +87,8 @@ s32 mImm_InitGameStart_data_init(s32 size, s32 combination, s32 playerNo, u32** 
     if (mImm_malloc_time < 150) {
         ret = 0;
         flag = 0;
-        buffer = func_800D97A0_jp(mFRm_SAVE_SIZE);
-        *buffer = buffer;
+        buf = func_800D97A0_jp(mFRm_SAVE_SIZE);
+        *buffer = buf;
         if (buf != NULL) {
             switch (size) {
                 case 0:
