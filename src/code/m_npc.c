@@ -1142,19 +1142,19 @@ void mNpc_GetRemailPresent(u16* present) {
 }
 
 s32 mNpc_GetHandbillz(Mail_c* mail, s32 superNum, s32 mailANum, s32 mailBNum, s32 mailCNum, s32 psNum) {
-    HandbillzInfo handbill;
+    mHandbillz_Info_c handbill;
     s32 res;
 
-    handbill.superBuf = Handbillz_tmp_super;
+    handbill.superBufP = Handbillz_tmp_super;
     handbill.superBufSize = MAIL_HEADER2_LEN;
-    handbill.mailBuf = mail->content.body;
+    handbill.mailBufP = mail->content.body;
     handbill.mailBufSize = MAIL_BODY_LEN;
-    handbill.psBuf = Handbillz_tmp_ps;
+    handbill.psBufP = Handbillz_tmp_ps;
     handbill.psBufSize = MAIL_FOOTER2_LEN;
     handbill.superNo = superNum;
-    handbill.mailANo = mailANum;
-    handbill.mailBNo = mailBNum;
-    handbill.mailCNo = mailCNum;
+    handbill.mailaNo = mailANum;
+    handbill.mailbNo = mailBNum;
+    handbill.mailcNo = mailCNum;
     handbill.psNo = psNum;
 
     res = mHandbillz_load(&handbill);

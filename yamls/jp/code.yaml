@@ -245,7 +245,7 @@
       - [0x73ABB0, .rodata, code/m_flashrom]
       - [0x73ABD0, rodata, code/73ABD0]
       - [0x73AC50, rodata, code/73AC50]
-      - [0x73AC60, rodata, code/73AC60]
+      - [0x73AC60, .rodata, code/m_handbill]
       - [0x73AD40, .rodata, code/m_immig]
       - [0x73AD50, .rodata, code/m_item_name]
       - [0x73AD70, rodata, code/73AD70]

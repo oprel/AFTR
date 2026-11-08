@@ -423,9 +423,9 @@
     compress: True
     bss_size: 0xC0
     subsegments:
-      - [0x7908A0, asm, overlays/submenu/board_ovl/m_board_ovl]
+      - [0x7908A0, c, overlays/submenu/board_ovl/m_board_ovl]
       - [0x7921B0, data, overlays/submenu/board_ovl/m_board_ovl]
-      - [0x7925E0, rodata, overlays/submenu/board_ovl/m_board_ovl]
+      - [0x7925E0, .rodata, overlays/submenu/board_ovl/m_board_ovl]
       - { start: 0x792610, type: bss, vram: 0x8088AC00, name: overlays/submenu/board_ovl/m_board_ovl }
   - name: board_ovl_reloc
     type: code

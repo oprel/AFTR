@@ -508,17 +508,17 @@ SubmenuProgramOverlay mSM_program_dlftbl[SUBMENU_PROGRAM_MAX] = {
     SUBMENU_PROGRAM(ovl__0079C020, func_80899E34_jp, func_80899F00_jp, func_80899D84_jp),
     // SUBMENU_PROGRAM_9
     SUBMENU_PROGRAM(ovl__0079DA50, func_8089AB8C_jp, func_8089AC14_jp, func_8089AAE4_jp),
-    // SUBMENU_PROGRAM_10
+    // SUBMENU_PROGRAM_EDITOR
     SUBMENU_PROGRAM(editor_ovl, mED_editor_ovl_construct, mED_editor_ovl_destruct, mED_editor_ovl_set_proc),
     // SUBMENU_PROGRAM_11
     SUBMENU_PROGRAM(ovl__00789B60, func_80882778_jp, func_80882818_jp, func_808826B8_jp),
     // SUBMENU_PROGRAM_BOARD
     SUBMENU_PROGRAM(board_ovl, mBD_board_ovl_construct, mBD_board_ovl_destruct, mBD_board_ovl_set_proc),
-    // SUBMENU_PROGRAM_13
+    // SUBMENU_PROGRAM_ADDRESS
     SUBMENU_PROGRAM(ovl__00792700, func_8088C4A0_jp, func_8088C548_jp, func_8088C344_jp),
     // SUBMENU_PROGRAM_14
     SUBMENU_PROGRAM(ovl__00794380, func_8088D924_jp, func_8088D9D4_jp, func_8088D81C_jp),
-    // SUBMENU_PROGRAM_15
+    // SUBMENU_PROGRAM_EDITENDCHK
     SUBMENU_PROGRAM(ovl__00799580, func_80896898_jp, func_80896938_jp, func_80896830_jp),
     // SUBMENU_PROGRAM_16
     SUBMENU_PROGRAM(warning_ovl, func_8089730C_jp, func_80897394_jp, func_8089728C_jp),
@@ -561,12 +561,12 @@ u8 flg_table_916[SUBMENU_PROGRAM_MAX] = {
     0,                                                                           // SUBMENU_PROGRAM_7
     0,                                                                           // SUBMENU_PROGRAM_8
     0,                                                                           // SUBMENU_PROGRAM_9
-    0,                                                                           // SUBMENU_PROGRAM_10
+    0,                                                                           // SUBMENU_PROGRAM_EDITOR
     PROGRAM_FLAG_2 | PROGRAM_FLAG_TAG | PROGRAM_FLAG_HAND,                       // SUBMENU_PROGRAM_11
     0,                                                                           // SUBMENU_PROGRAM_BOARD
-    0,                                                                           // SUBMENU_PROGRAM_13
+    0,                                                                           // SUBMENU_PROGRAM_ADDRESS
     PROGRAM_FLAG_2 | PROGRAM_FLAG_TAG | PROGRAM_FLAG_HAND | PROGRAM_FLAG_HANIWA, // SUBMENU_PROGRAM_14
-    0,                                                                           // SUBMENU_PROGRAM_15
+    0,                                                                           // SUBMENU_PROGRAM_EDITENDCHK
     0,                                                                           // SUBMENU_PROGRAM_16
     PROGRAM_FLAG_2 | PROGRAM_FLAG_TAG | PROGRAM_FLAG_HAND,                       // SUBMENU_PROGRAM_17
     0,                                                                           // SUBMENU_PROGRAM_18
@@ -585,12 +585,12 @@ f32 data_table_935[SUBMENU_PROGRAM_MAX][4] = {
     { 0.0f, 300.0f, 0.0f, 75.0f },  // SUBMENU_PROGRAM_7
     { 0.0f, 300.0f, 0.0f, 75.0f },  // SUBMENU_PROGRAM_8
     { 0.0f, 300.0f, 0.0f, 75.0f },  // SUBMENU_PROGRAM_9
-    { 0.0f, -300.0f, 0.0f, 75.0f }, // SUBMENU_PROGRAM_10
+    { 0.0f, -300.0f, 0.0f, 75.0f }, // SUBMENU_PROGRAM_EDITOR
     { -300.0f, 0.0f, 75.0f, 0.0f }, // SUBMENU_PROGRAM_11
     { 0.0f, 300.0f, 0.0f, 75.0f },  // SUBMENU_PROGRAM_BOARD
-    { 0.0f, 0.0f, 0.0f, 0.0f },     // SUBMENU_PROGRAM_13
+    { 0.0f, 0.0f, 0.0f, 0.0f },     // SUBMENU_PROGRAM_ADDRESS
     { -300.0f, 0.0f, 75.0f, 0.0f }, // SUBMENU_PROGRAM_14
-    { 0.0f, -300.0f, 0.0f, 75.0f }, // SUBMENU_PROGRAM_15
+    { 0.0f, -300.0f, 0.0f, 75.0f }, // SUBMENU_PROGRAM_EDITENDCHK
     { 0.0f, 0.0f, 0.0f, 0.0f },     // SUBMENU_PROGRAM_16
     { 300.0f, 0.0f, 75.0f, 0.0f },  // SUBMENU_PROGRAM_17
     { 0.0f, 0.0f, 0.0f, 0.0f },     // SUBMENU_PROGRAM_18

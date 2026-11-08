@@ -41,6 +41,27 @@ typedef enum InventoryItemList {
     /* 16 */ INVENTORY_ITEM_LIST_MAX
 } InventoryItemList;
 
+// Direction a menu moves in. Same as ac-decomp's mSM_MOVE_*.
+enum {
+    mSM_MOVE_OUT_RIGHT,
+    mSM_MOVE_IN_RIGHT,
+    mSM_MOVE_OUT_LEFT,
+    mSM_MOVE_IN_LEFT,
+    mSM_MOVE_OUT_TOP,
+    mSM_MOVE_IN_TOP,
+    mSM_MOVE_OUT_BOTTOM,
+    mSM_MOVE_IN_BOTTOM,
+
+    mSM_MOVE_NUM
+};
+
+// How a board is opened (data0 of its menu info). Same as ac-decomp's mSM_BD_OPEN_*, minus the island ones.
+enum {
+    mSM_BD_OPEN_WRITE,
+    mSM_BD_OPEN_READ,
+    mSM_BD_OPEN_REWRITE
+};
+
 typedef enum SubmenuProgramId {
     /*  0 */ SUBMENU_PROGRAM_0, // inventory, NONE? DEFAULT?
     /*  1 */ SUBMENU_PROGRAM_1, // inventory
@@ -52,12 +73,12 @@ typedef enum SubmenuProgramId {
     /*  7 */ SUBMENU_PROGRAM_7,
     /*  8 */ SUBMENU_PROGRAM_8,
     /*  9 */ SUBMENU_PROGRAM_9,
-    /* 10 */ SUBMENU_PROGRAM_10,
+    /* 10 */ SUBMENU_PROGRAM_EDITOR,
     /* 11 */ SUBMENU_PROGRAM_11,
     /* 12 */ SUBMENU_PROGRAM_BOARD,
-    /* 13 */ SUBMENU_PROGRAM_13,
+    /* 13 */ SUBMENU_PROGRAM_ADDRESS,
     /* 14 */ SUBMENU_PROGRAM_14,
-    /* 15 */ SUBMENU_PROGRAM_15,
+    /* 15 */ SUBMENU_PROGRAM_EDITENDCHK,
     /* 16 */ SUBMENU_PROGRAM_16,
     /* 17 */ SUBMENU_PROGRAM_17,
     /* 18 */ SUBMENU_PROGRAM_18,

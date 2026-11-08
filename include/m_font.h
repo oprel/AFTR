@@ -4,6 +4,16 @@
 #include "ultra64.h"
 #include "unk.h"
 
+#ifndef CHAR_SPACE
+#define CHAR_SPACE 32
+#endif
+#define CHAR_CONTROL_CODE 127
+#define CHAR_NEW_LINE 205
+
+// Number of control codes, i.e. what the byte after CHAR_CONTROL_CODE can be.
+#define mFont_CONT_CODE_BEGIN 0
+#define mFont_CONT_CODE_NUM 97
+
 struct GraphicsContext;
 struct Game;
 

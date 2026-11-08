@@ -117,6 +117,55 @@ typedef struct struct_8085E9B0_unk_10670 {
     /* 0x2C */ f32 unk_2C;
 } struct_8085E9B0_unk_10670; // size >= 0x30
 
+// Per overlay process, same as ac-decomp's mSM_OVL_PROC_*.
+enum {
+    mSM_OVL_PROC_MOVE,
+    mSM_OVL_PROC_PLAY,
+    mSM_OVL_PROC_WAIT,
+    mSM_OVL_PROC_OBEY,
+    mSM_OVL_PROC_END,
+
+    mSM_OVL_PROC_NUM
+};
+
+// Same layout as struct_8085E9B0_unk_10088, named like ac-decomp's mSM_MenuInfo_c.
+typedef struct mSM_MenuInfo_s {
+    /* 0x00 */ s32 menuType;
+    /* 0x04 */ s32 procStatus;
+    /* 0x08 */ s32 preMenuType;
+    /* 0x0C */ struct_8085E9B0_unk_10670_unk_00 preMoveFunc;
+    /* 0x10 */ struct_8085E9B0_unk_10670_unk_04 preDrawFunc;
+    /* 0x14 */ s32 nextMenuType;
+    /* 0x18 */ f32 position[2];
+    /* 0x20 */ f32 speed[2];
+    /* 0x28 */ void* segment; // unnamed (_28) in ac-decomp
+    /* 0x2C */ s32 openFlag;
+    /* 0x30 */ s32 nextProcStatus;
+    /* 0x34 */ s32 moveDrt;
+    /* 0x38 */ s32 data0;
+    /* 0x3C */ s32 data1;
+    /* 0x40 */ void* data2;
+    /* 0x44 */ s32 data3;
+} mSM_MenuInfo_c; // size = 0x48
+
+// Same layout as struct_8085E9B0_unk_10670 (plus the animation flag that follows it), named like ac-decomp's
+// mSM_Control_c.
+typedef struct mSM_Control_s {
+    /* 0x00 */ struct_8085E9B0_unk_10670_unk_00 menuMoveFunc;
+    /* 0x04 */ struct_8085E9B0_unk_10670_unk_04 menuDrawFunc;
+    /* 0x08 */ UNK_FUN_PTR handMoveFunc;
+    /* 0x0C */ UNK_FUN_PTR handDrawFunc;
+    /* 0x10 */ UNK_FUN_PTR tagMoveFunc;
+    /* 0x14 */ UNK_FUN_PTR tagDrawFunc;
+    /* 0x18 */ s32 stickRelease;
+    /* 0x1C */ u32 trigger;
+    /* 0x20 */ u32 lastTrigger;
+    /* 0x24 */ s16 repeatTimer;
+    /* 0x26 */ u16 textureMovementAngle;
+    /* 0x28 */ f32 texturePos[2];
+    /* 0x30 */ s32 animationFlag;
+} mSM_Control_c; // size = 0x34
+
 typedef void (*struct_8085E9B0_unk_106A4)(struct Submenu*, struct_mSM_return_func_arg1*);
 typedef void (*struct_8085E9B0_unk_106A8)(struct Submenu*, struct_mSM_move_Move_arg1*);
 typedef void (*struct_8085E9B0_unk_106AC)(struct Submenu*, struct_mSM_return_func_arg1*);

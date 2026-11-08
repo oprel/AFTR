@@ -1484,14 +1484,14 @@ B_80884250_jp = 0x80884250; //
 
 // .text
 
-func_80884340_jp = 0x80884340; // type:func
-func_80884370_jp = 0x80884370; // type:func
-func_80884484_jp = 0x80884484; // type:func
-func_808844B4_jp = 0x808844B4; // type:func
-func_80884514_jp = 0x80884514; // type:func
-func_80884AAC_jp = 0x80884AAC; // type:func
+mLE_move_Move = 0x80884340; // type:func
+mLE_move_Wait = 0x80884370; // type:func
+mLE_move_End = 0x80884484; // type:func
+mLE_ledit_ovl_move = 0x808844B4; // type:func
+mLE_set_dl = 0x80884514; // type:func
+mLE_ledit_ovl_draw = 0x80884AAC; // type:func
 mLE_ledit_ovl_set_proc = 0x80884B00; // type:func
-func_80884B30_jp = 0x80884B30; // type:func
+mLE_ledit_ovl_init = 0x80884B30; // type:func
 mLE_ledit_ovl_construct = 0x80884C84; // type:func
 mLE_ledit_ovl_destruct = 0x80884D00; // type:func
 
@@ -1502,11 +1502,11 @@ mLE_country_title = 0x80884D28; //
 mLE_ephrase_title = 0x80884D34; //
 mLE_reset_title = 0x80884D40; //
 mLE_request_title = 0x80884D4C; //
-D_FLT_80884D58_jp = 0x80884D58; // type:f32
-D_80884D70_jp = 0x80884D70; //
-D_80884E20_jp = 0x80884E20; //
-D_80884E34_jp = 0x80884E34; //
-D_80884E38_jp = 0x80884E38; //
+mLE_win_data = 0x80884D58; // size:0xC8
+mLE_win_data_edit_max = 0x80884D70; //
+mLE_ovl_move_proc = 0x80884E20; //
+mLE_country_str = 0x80884E34; //
+mLE_data_dlftbl = 0x80884E38; //
 
 // .rodata
 
@@ -1515,59 +1515,59 @@ RO_FLT_80884E54_jp = 0x80884E54; // type:f32
 
 // .bss
 
-B_80884E60_jp = 0x80884E60; //
-B_80885088_jp = 0x80885088; //
+mLE_md_name = 0x80884E60; //
+mLE_npc_end_word_edit = 0x80885088; //
 
 // .text
 
-func_80885140_jp = 0x80885140; // type:func
-func_808851D8_jp = 0x808851D8; // type:func
-func_8088537C_jp = 0x8088537C; // type:func
-func_808854CC_jp = 0x808854CC; // type:func
-func_80885530_jp = 0x80885530; // type:func
-func_808855DC_jp = 0x808855DC; // type:func
-func_80885608_jp = 0x80885608; // type:func
-func_80885690_jp = 0x80885690; // type:func
-func_80885708_jp = 0x80885708; // type:func
-func_80885760_jp = 0x80885760; // type:func
-func_808857F8_jp = 0x808857F8; // type:func
-mEditor_init = 0x8088587C; // type:func
-func_8088596C_jp = 0x8088596C; // type:func
-func_80885A74_jp = 0x80885A74; // type:func
-func_80885AEC_jp = 0x80885AEC; // type:func
-func_80885CBC_jp = 0x80885CBC; // type:func
-func_80885D2C_jp = 0x80885D2C; // type:func
-func_80885D94_jp = 0x80885D94; // type:func
-func_80885DD4_jp = 0x80885DD4; // type:func
-func_80885EC8_jp = 0x80885EC8; // type:func
-func_80885F4C_jp = 0x80885F4C; // type:func
-func_80885F6C_jp = 0x80885F6C; // type:func
-func_80885FCC_jp = 0x80885FCC; // type:func
-func_808860A0_jp = 0x808860A0; // type:func
-func_808860FC_jp = 0x808860FC; // type:func
-func_80886168_jp = 0x80886168; // type:func
-func_808861AC_jp = 0x808861AC; // type:func
-func_808861E0_jp = 0x808861E0; // type:func
-func_808862EC_jp = 0x808862EC; // type:func
-func_808863B8_jp = 0x808863B8; // type:func
-func_80886490_jp = 0x80886490; // type:func
-func_80886588_jp = 0x80886588; // type:func
-func_80886674_jp = 0x80886674; // type:func
-func_808866F4_jp = 0x808866F4; // type:func
-func_80886724_jp = 0x80886724; // type:func
-func_808869C0_jp = 0x808869C0; // type:func
+mED_get_code = 0x80885140; // type:func
+mED_set_stick_area = 0x808851D8; // type:func
+mED_check_move_cursol = 0x8088537C; // type:func
+mEditor_Check_Shift_Mode = 0x808854CC; // type:func
+mEditor_Check_Page_Mode = 0x80885530; // type:func
+mEditor_AreaToConsonant = 0x808855DC; // type:func
+mEditor_Input_Consonant_Num = 0x80885608; // type:func
+mEditor_Get_Now_Code = 0x80885690; // type:func
+mED_check_now_code = 0x80885708; // type:func
+mED_check_output_code = 0x80885760; // type:func
+mED_set_command = 0x808857F8; // type:func
+mED_init = 0x8088587C; // type:func
+mED_set_se = 0x8088596C; // type:func
+mED_set_idx = 0x80885A74; // type:func
+mED_get_col_and_line = 0x80885AEC; // type:func
+mED_get_max_col_in_line = 0x80885CBC; // type:func
+mED_output_code = 0x80885D2C; // type:func
+mED_input_single_line = 0x80885D94; // type:func
+mED_input_multi_line = 0x80885DD4; // type:func
+mED_move_cursol_right = 0x80885EC8; // type:func
+mED_move_cursol_left = 0x80885F4C; // type:func
+mED_move_cursol_upper = 0x80885F6C; // type:func
+mED_move_cursol_lower = 0x80885FCC; // type:func
+mED_end_edit_func = 0x808860A0; // type:func
+mED_backspace_func = 0x808860FC; // type:func
+mED_get_exchange_code = 0x80886168; // type:func
+mED_exchange_code_func = 0x808861AC; // type:func
+mED_all_space_check = 0x808861E0; // type:func
+mED_edit_func_multi_line = 0x808862EC; // type:func
+mED_edit_func_single_line = 0x808863B8; // type:func
+mED_edit_func_letter_header = 0x80886490; // type:func
+mED_move_letter_table = 0x80886588; // type:func
+mED_edit_func_letter = 0x80886674; // type:func
+mED_move_Move = 0x808866F4; // type:func
+mED_move_Play = 0x80886724; // type:func
+mED_move_End = 0x808869C0; // type:func
 mED_editor_ovl_move = 0x80886A00; // type:func
 mED_editor_draw_init = 0x80886A60; // type:func
-func_80886C78_jp = 0x80886C78; // type:func
-func_80886CC4_jp = 0x80886CC4; // type:func
-func_80887768_jp = 0x80887768; // type:func
-func_8088798C_jp = 0x8088798C; // type:func
-func_80887A78_jp = 0x80887A78; // type:func
-func_80887BF4_jp = 0x80887BF4; // type:func
-func_80887D5C_jp = 0x80887D5C; // type:func
-func_80887DF0_jp = 0x80887DF0; // type:func
-func_80887F48_jp = 0x80887F48; // type:func
-func_80888024_jp = 0x80888024; // type:func
+mED_StringsDrawCheck_forRingOut = 0x80886C78; // type:func
+mED_KeyDraw = 0x80886CC4; // type:func
+mED_StringsDraw_RingSingle = 0x80887768; // type:func
+mED_StringsDraw_forRingInReturn = 0x8088798C; // type:func
+mED_StringsDraw_forRingIn = 0x80887A78; // type:func
+mED_StringsDraw_forRingOut = 0x80887BF4; // type:func
+mED_StringsDraw_select = 0x80887D5C; // type:func
+mED_StringsDraw_ornament = 0x80887DF0; // type:func
+mED_StringsDraw = 0x80887F48; // type:func
+mED_set_dl = 0x80888024; // type:func
 mED_endCode_draw = 0x808880E4; // type:func
 mED_cursol_draw = 0x808881C0; // type:func
 mED_editor_ovl_draw = 0x80888294; // type:func
@@ -1578,43 +1578,43 @@ mED_editor_ovl_destruct = 0x808884E4; // type:func
 
 // .data
 
-D_80888500_jp = 0x80888500; //
-D_80888534_jp = 0x80888534; //
-D_80888568_jp = 0x80888568; //
-D_80888588_jp = 0x80888588; //
-D_80888594_jp = 0x80888594; //
-D_808885B4_jp = 0x808885B4; //
-D_808885C8_jp = 0x808885C8; //
-D_808885DC_jp = 0x808885DC; //
+mED_hiragana_table = 0x80888500; //
+mED_katakana_table = 0x80888534; //
+mED_kigou_table = 0x80888568; //
+mED_number_table = 0x80888588; //
+mED_alphabet_table = 0x80888594; //
+mED_page_num_max = 0x808885B4; //
+mED_page_data_table = 0x808885C8; //
+mED_offset_max = 0x808885DC; //
 mED_edit_line = 0x808885F0; // type:s16
-D_808885FC_jp = 0x808885FC; // type:u16
-D_80888610_jp = 0x80888610; // type:u8
-D_80888710_jp = 0x80888710; // type:u8
-D_80888810_jp = 0x80888810; // type:s16
-D_80888818_jp = 0x80888818; //
-D_80888824_jp = 0x80888824; //
-D_80888838_jp = 0x80888838; //
-D_8088884C_jp = 0x8088884C; //
-D_80888854_jp = 0x80888854; //
-D_8088885C_jp = 0x8088885C; //
-D_80888864_jp = 0x80888864; //
-D_8088886C_jp = 0x8088886C; //
-D_80888874_jp = 0x80888874; //
-D_8088887C_jp = 0x8088887C; //
-D_80888884_jp = 0x80888884; //
-D_8088888C_jp = 0x8088888C; //
-D_80888894_jp = 0x80888894; //
-D_8088889C_jp = 0x8088889C; //
-D_808888A8_jp = 0x808888A8; //
-D_808888CC_jp = 0x808888CC; //
-D_808888E0_jp = 0x808888E0; // type:u8
-D_80888934_jp = 0x80888934; // type:u8
-D_FLT_8088894C_jp = 0x8088894C; // type:f32
-D_80888964_jp = 0x80888964; //
-D_FLT_80888968_jp = 0x80888968; // type:f32
+mED_se_no = 0x808885FC; //
+mED_exchange_se_list = 0x80888610; //
+mED_ornament_table = 0x80888710; //
+mED_letter_table_col = 0x80888810; //
+mED_letter_base_func = 0x80888818; //
+mED_edit_func = 0x80888824; //
+mED_ovl_move_proc = 0x80888838; //
+lat_sousa_button_pallet_tbl = 0x8088884C; //
+lat_sousa_start_button_tbl = 0x80888854; //
+lat_sousa_b_button_tbl = 0x8088885C; //
+lat_sousa_a_button_tbl = 0x80888864; //
+lat_sousa_c_r_button_tbl = 0x8088886C; //
+lat_sousa_c_l_button_tbl = 0x80888874; //
+lat_sousa_c_u_button_tbl = 0x8088887C; //
+lat_sousa_c_d_button_tbl = 0x80888884; //
+lat_sousa_z_button_tbl = 0x8088888C; //
+lat_sousa_r_button_tbl = 0x80888894; //
+lat_sousa_waku1_tex_tbl = 0x8088889C; //
+lat_sousa_st_tex_tbl = 0x808888A8; //
+mED_display_list_table = 0x808888CC; //
+mED_model_color = 0x808888E0; //
+mED_rstr_color = 0x80888934; //
+mED_ring_in_return_pos = 0x8088894C; //
+mED_return_str = 0x80888964; //
+mED_ring_in_pos = 0x80888968; //
 D_FLT_808889B8_jp = 0x808889B8; // type:f32
-D_FLT_80888A08_jp = 0x80888A08; // type:f32
-D_FLT_80888A80_jp = 0x80888A80; // type:f32
+mED_ring_out_pos = 0x80888A08; //
+mED_scale_kind = 0x80888A80; //
 mED_data_dlftbl = 0x80888A8C; //
 
 // .rodata
@@ -1630,40 +1630,40 @@ D_80888B20_jp = 0x80888B20; //
 
 // .text
 
-func_80888E90_jp = 0x80888E90; // type:func
-func_80889028_jp = 0x80889028; // type:func
-func_8088910C_jp = 0x8088910C; // type:func
-func_8088913C_jp = 0x8088913C; // type:func
-func_80889198_jp = 0x80889198; // type:func
-func_8088920C_jp = 0x8088920C; // type:func
-func_80889288_jp = 0x80889288; // type:func
-func_808894E4_jp = 0x808894E4; // type:func
-func_80889514_jp = 0x80889514; // type:func
-func_80889574_jp = 0x80889574; // type:func
-func_8088973C_jp = 0x8088973C; // type:func
-func_80889878_jp = 0x80889878; // type:func
-func_808899E4_jp = 0x808899E4; // type:func
-func_80889A9C_jp = 0x80889A9C; // type:func
-func_80889CD8_jp = 0x80889CD8; // type:func
-func_80889FB0_jp = 0x80889FB0; // type:func
-func_8088A15C_jp = 0x8088A15C; // type:func
-func_8088A230_jp = 0x8088A230; // type:func
+mBD_roll_control = 0x80888E90; // type:func
+mBD_roll_control2 = 0x80889028; // type:func
+mBD_move_Move = 0x8088910C; // type:func
+mBD_move_Wait = 0x8088913C; // type:func
+mBD_end_board = 0x80889198; // type:func
+mBD_move_Play = 0x8088920C; // type:func
+mBD_move_Obey = 0x80889288; // type:func
+mBD_move_End = 0x808894E4; // type:func
+mBD_board_ovl_move = 0x80889514; // type:func
+mBD_set_frame_dl = 0x80889574; // type:func
+mBD_set_point = 0x8088973C; // type:func
+mBD_set_cursol = 0x80889878; // type:func
+mBD_set_writing_footer = 0x808899E4; // type:func
+mBD_set_writing_body = 0x80889A9C; // type:func
+mBD_set_writing_header = 0x80889CD8; // type:func
+mBD_set_character = 0x80889FB0; // type:func
+mBD_set_dl = 0x8088A15C; // type:func
+mBD_board_ovl_draw = 0x8088A230; // type:func
 mBD_board_ovl_set_proc = 0x8088A2A0; // type:func
-func_8088A2D0_jp = 0x8088A2D0; // type:func
-func_8088A604_jp = 0x8088A604; // type:func
+mBD_board_ovl_init = 0x8088A2D0; // type:func
+mBD_board_letter_dma = 0x8088A604; // type:func
 mBD_board_ovl_construct = 0x8088A6E8; // type:func
 mBD_board_ovl_destruct = 0x8088A77C; // type:func
 
 // .data
 
-D_8088A7A0_jp = 0x8088A7A0; //
-D_8088A8A0_jp = 0x8088A8A0; //
-D_8088A9A0_jp = 0x8088A9A0; //
-D_8088AAA4_jp = 0x8088AAA4; //
-D_8088ABA4_jp = 0x8088ABA4; //
-D_8088ABB8_jp = 0x8088ABB8; //
-D_8088ABBC_jp = 0x8088ABBC; //
-D_8088ABC0_jp = 0x8088ABC0; //
+paper_disp_model = 0x8088A7A0; //
+paper_disp_sen_model = 0x8088A8A0; //
+paper_data_offset = 0x8088A9A0; //
+mBD_letter_color = 0x8088AAA4; //
+mBD_ovl_move_proc = 0x8088ABA4; //
+mBD_header_str = 0x8088ABB8; //
+mBD_footer_str = 0x8088ABBC; //
+mBD_data_dlftbl = 0x8088ABC0; //
 
 // .rodata
 
@@ -1675,7 +1675,7 @@ RO_FLT_8088ABF0_jp = 0x8088ABF0; // type:f32
 
 // .bss
 
-B_8088AC00_jp = 0x8088AC00; //
+mBD_board_ovl_data = 0x8088AC00; //
 D_8088ACC0_jp = 0x8088ACC0; //
 
 // .text
